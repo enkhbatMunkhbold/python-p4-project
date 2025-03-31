@@ -1,0 +1,12 @@
+.logo {
+  height: 30px;
+  width: 50px;
+}
+
+.header {  
+  font-weight: 500;
+}
+
+.header nav {
+  background-color: #E8F9FF !important;
+}
