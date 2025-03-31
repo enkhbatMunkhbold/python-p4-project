@@ -25,21 +25,21 @@ function App() {
     .then(setAstronauts)
   }, [setAstronauts]);
 
-  function handleUpdateMissions(updatedMission) {
+  function updateMissions(updatedMission) {
     const updatedList = missions.map(mission => mission.id === updatedMission.id ? updatedMission : mission)
     setMissions(updatedList)
   }
 
-  function handleAddMission(data) {
+  function addMission(data) {
     setMissions([...missions, data])
   } 
 
-  function handleUpdateAstronauts(updatedAstronaut) {
+  function updateAstronauts(updatedAstronaut) {
     const updatedList = astronauts.map(astronaut => astronaut.id === updatedAstronaut.id ? updatedAstronaut : astronaut)
     setAstronauts(updatedList)
   }
 
-  function handleAddAstronauts(data) {
+  function addAstronauts(data) {
     setAstronauts(preAstronauts => {
       const updatedAstronauts = [...preAstronauts]
       data.forEach(newAstro => {
@@ -69,21 +69,21 @@ function App() {
       <Router>
         <Navbar/>
         <Routes>
-          <Route path="/" element={ <Home missions={missions} onUpdateList={handleUpdateMissions}/>}/>
+          <Route path="/" element={ <Home missions={missions} onUpdateMissions={updateMissions}/>}/>
           <Route path="/missions" element={ 
             <Missions missions={missions} 
-              onUpdateList={handleUpdateMissions}
+              onUpdateMissions={updateMissions}
               onRemoveMission={removeMission}
               onRemoveAstronaut={removeAstronaut}
             />}/>        
           <Route path="/astronauts" element={ 
             <Astronauts astronauts={astronauts} 
-              onUpdateList={handleUpdateAstronauts}
+              onUpdateList={updateAstronauts}
               onRemoveAstronaut={removeAstronaut}
             />}/>
           <Route path="/missions/new" element={
-            <Create onAddMission={handleAddMission} 
-              onAddAstronauts={handleAddAstronauts}
+            <Create onAddMission={addMission} 
+              onAddAstronauts={addAstronauts}
               astronauts={astronauts}
             />} />
           <Route path="/missions/:id" element={ <MissionDetails/>}/>

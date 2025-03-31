@@ -3,7 +3,7 @@ import '../stylesheets/home.css'
 import Search from './Search'
 import Mission from './Mission'
 
-const Home = ({ missions, onUpdateList }) => {
+const Home = ({ missions, onUpdateMissions }) => {
 
   const [ search, setSearch ] = useState('')
   
@@ -17,7 +17,7 @@ const Home = ({ missions, onUpdateList }) => {
     return (
       <Mission key={mission.id} 
         mission={mission} 
-        onUpdateList={onUpdateList}
+        onUpdateMissions={onUpdateMissions}
       />
     )
   }) 

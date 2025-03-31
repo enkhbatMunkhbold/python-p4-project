@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../stylesheets/mission.css"
 
-const Mission = ({ mission, onUpdateList, onRemoveMission, onRemoveAstronaut }) => {
+const Mission = ({ mission, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
 
   const navigate = useNavigate()
   const { id, date, image, crew, space_shuttle, country, isFavorite } = mission  
@@ -16,7 +16,7 @@ const Mission = ({ mission, onUpdateList, onRemoveMission, onRemoveAstronaut }) 
       body: JSON.stringify({isFavorite: !isFavorite})
     }).then(res => res.json())
     .then(data => {
-      onUpdateList(data)
+      onUpdateMissions(data)
     })
   }
 
