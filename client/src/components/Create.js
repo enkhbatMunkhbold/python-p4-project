@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "../stylesheets/create.css"
 
-const Create = ({ onAddMission, onAddAstronauts, astronauts }) => {
+const Create = ({ onAddMission, onAddAstronauts, onUpdateAstronauts, astronauts }) => {
 
   const navigate = useNavigate()
   const initialNewMission = {
@@ -20,7 +20,7 @@ const Create = ({ onAddMission, onAddAstronauts, astronauts }) => {
 
   function handleChange(e) {
     let { name, value } = e.target   
-    name === 'crew' ? setCrewInput(value) : setNewMission((prev) => ({ ...prev, [name]: value}))
+    name === 'crew' ? setCrewInput(value) : name === 'name' ? setNewMission((prev) => ({ ...prev, [name]: value.toUpperCase()})) : setNewMission((prev) => ({ ...prev, [name]: value }))
   }
 
   function handleCheck(e) {
@@ -31,20 +31,11 @@ const Create = ({ onAddMission, onAddAstronauts, astronauts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()  
     
-    const crewNames = crewInput
-        .split(',')
-        .map(name => name.trim())
-        .filter(name => name !== '')
+    const crewNames = crewInput.split(',')
     
-    const existingAtronautNames = astronauts.filter(astro => crewNames.includes(astro.name))
-    const newAstronauts = crewNames.filter(name => !astronauts.some(astro => astro.name === name))
-       .map(name => ({
-        name: name,
-        missions: [newMission.name],
-        country: newMission.country,
-        isInService: newMission.isInService
-       })) 
-       
+    const existingAstronauts = astronauts.filter(astro => crewNames.some(name => astro.name === name))
+    const newAstronautNames = crewNames.filter(name => !astronauts.some(astro => astro.name === name))
+    
     const missionData = { ...newMission, crew: crewNames }
 
     try {
@@ -58,7 +49,29 @@ const Create = ({ onAddMission, onAddAstronauts, astronauts }) => {
       const missionResult = await missionResponse.json()
       onAddMission(missionResult)
 
-      if(newAstronauts.length > 0) {
+      // Update existing astronauts' missions
+      for (let astro of existingAstronauts) {
+        const updatedMissions = [...astro.missions, newMission.name]
+        await fetch(`/astronauts/${astro.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ missions: updatedMissions })
+        })
+        .then(res => res.json())
+        .then(onUpdateAstronauts)
+      }
+
+      // Create new astronauts only if they don't exist
+      if(newAstronautNames.length > 0) {
+        const newAstronauts = newAstronautNames.map(name => ({
+          name: name,
+          missions: [newMission.name],
+          country: newMission.country,
+          isInService: newMission.isInService
+        }))
+        
         const crewResults = []
         for (const astronaut of newAstronauts) {
           const crewResponse = await fetch('/astronauts', {
@@ -68,22 +81,10 @@ const Create = ({ onAddMission, onAddAstronauts, astronauts }) => {
             },
             body: JSON.stringify(astronaut)
           })
-
           const crewResult = await crewResponse.json()
           crewResults.push(crewResult)
         }
         onAddAstronauts(crewResults)
-      }
-
-      for (let astro of existingAtronautNames) {
-        const updatedMissions = [...astro.missions, newMission.name]
-        await fetch(`/astronauts/${astro.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ missions: updatedMissions })
-        })
       }
 
       setNewMission(initialNewMission)

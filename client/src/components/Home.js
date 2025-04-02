@@ -11,7 +11,7 @@ const Home = ({ missions, onUpdateMissions }) => {
     setSearch(input)
   }
 
-  const filteredMissions = missions.filter(mission => mission.space_shuttle.toLowerCase().includes(search.toLowerCase()))
+  const filteredMissions = missions.filter(mission => mission.name.toLowerCase().includes(search.toLowerCase()))
  
   const displayMissions = filteredMissions.map(mission => {
     return (

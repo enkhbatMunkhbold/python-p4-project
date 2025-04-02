@@ -2,13 +2,15 @@ import React from 'react'
 import Mission from './Mission';
 import '../stylesheets/app.css'
 
-const Missions = ({ missions, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
+const Missions = ({ missions, astronauts, setAstronauts, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
 
   function renderMissionsList(list) {
     return list.map(mission => {
       return (
         <Mission key={mission.id}
           mission = {mission}
+          astronauts={astronauts}
+          setAstronauts={setAstronauts}
           onUpdateMissions={onUpdateMissions}
           onRemoveMission={onRemoveMission}
           onRemoveAstronaut={onRemoveAstronaut}

@@ -30,7 +30,7 @@ div.component:before {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: 150vh;
   opacity: 0.5;
   background-image: url('../../public/images/spaceman.jpg');
   background-repeat: no-repeat;

@@ -2,10 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../stylesheets/mission.css"
 
-const Mission = ({ mission, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
+const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
 
   const navigate = useNavigate()
-  const { id, date, image, crew, space_shuttle, country, isFavorite } = mission  
+  const { id, date, image, crew, space_shuttle, country, isFavorite, name } = mission 
   
   function handleFavoriteClick() {    
     fetch(`/missions/${id}`, {
@@ -29,17 +29,49 @@ const Mission = ({ mission, onUpdateMissions, onRemoveMission, onRemoveAstronaut
       method: 'DELETE'
     })
     .then(res => res.json())
-    .then(() => onRemoveMission(mission))
+    .then(() => {
+      onRemoveMission(mission);
 
-    if(crew.length > 0) {
-      crew.forEach(astro => {
-        fetch(`/astronauts/${astro}`, {
-          method: 'DELETE'
-        })
-        .then(res => res.json())
-        .then(() => onRemoveAstronaut(astro))
-      })
-    }
+      // Remove astronauts associated with the mission
+      if (crew.length > 0) {
+        const updatedAstronauts = [...astronauts]; // Create a copy of the astronauts list
+
+        crew.forEach(astroName => {
+          const astronaut = updatedAstronauts.find(a => a.name === astroName);
+          if (astronaut) {
+            if (astronaut.missions.length === 1) {
+              // Delete astronaut if this is their only mission
+              fetch(`/astronauts/${astronaut.id}`, {
+                method: 'DELETE'
+              })
+              .then(res => res.json())
+              .then(() => {
+                const index = updatedAstronauts.findIndex(a => a.id === astronaut.id);
+                if (index > -1) updatedAstronauts.splice(index, 1); // Remove astronaut from the list
+                setAstronauts(updatedAstronauts); // Update state
+                onRemoveAstronaut(astronaut);
+              });
+            } else {
+              // Update astronaut's missions if they have other missions
+              const updatedMissions = astronaut.missions.filter(m => m !== name);
+              fetch(`/astronauts/${astronaut.id}`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ missions: updatedMissions })
+              })
+              .then(res => res.json())
+              .then(updatedAstronaut => {
+                const index = updatedAstronauts.findIndex(a => a.id === updatedAstronaut.id);
+                if (index > -1) updatedAstronauts[index] = updatedAstronaut; // Update astronaut in the list
+                setAstronauts(updatedAstronauts); // Update state
+              });
+            }
+          }
+        });
+      }
+    });
   }
 
   return (
