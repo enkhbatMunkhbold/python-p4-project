@@ -55,26 +55,6 @@ function App() {
   } 
 
   function removeMission(deletedMission) {
-    
-    // deletedMission.crew.forEach(astro => {
-    //   const astronaut = astronauts.find(a => a.name === astro)
-    //   if(astronaut) {
-    //     astronaut.missions = astronaut.missions.filter(mission => mission.name !== deletedMission)
-    //     if(astronaut.missions.length > 0) {
-    //       fetch(`/astronauts/${astronaut.id}`, {
-    //         method: 'PATCH',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ missions: astronaut.missions })
-    //       })
-    //       .then(res => res.json())
-    //       .then(data => updateAstronauts(data))
-    //       .catch(error => console.error('Error updating astronaut:', error))
-    //     }
-    //   }
-    // })
-
     const updatedMissions = missions.filter(mission => mission.id !== deletedMission.id)
     setMissions(updatedMissions)
   }
@@ -99,7 +79,6 @@ function App() {
               setAstronauts={setAstronauts}
               onUpdateMissions={updateMissions}
               onRemoveMission={removeMission}
-              onRemoveAstronaut={removeAstronaut}
             />}/>        
           <Route path="/astronauts" element={ 
             <Astronauts astronauts={astronauts} 

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../stylesheets/mission.css"
 
-const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
+const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemoveMission }) => {
 
   const navigate = useNavigate()
   const { id, date, image, crew, space_shuttle, country, isFavorite, name } = mission 
@@ -49,7 +49,6 @@ const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemov
                 const index = updatedAstronauts.findIndex(a => a.id === astronaut.id);
                 if (index > -1) updatedAstronauts.splice(index, 1); // Remove astronaut from the list
                 setAstronauts(updatedAstronauts); // Update state
-                onRemoveAstronaut(astronaut);
               });
             } else {
               // Update astronaut's missions if they have other missions

@@ -2,7 +2,7 @@ import React from 'react'
 import Mission from './Mission';
 import '../stylesheets/app.css'
 
-const Missions = ({ missions, astronauts, setAstronauts, onUpdateMissions, onRemoveMission, onRemoveAstronaut }) => {
+const Missions = ({ missions, astronauts, setAstronauts, onUpdateMissions, onRemoveMission }) => {
 
   function renderMissionsList(list) {
     return list.map(mission => {
@@ -13,7 +13,6 @@ const Missions = ({ missions, astronauts, setAstronauts, onUpdateMissions, onRem
           setAstronauts={setAstronauts}
           onUpdateMissions={onUpdateMissions}
           onRemoveMission={onRemoveMission}
-          onRemoveAstronaut={onRemoveAstronaut}
         />
       )
     })

@@ -1,7 +1,7 @@
 {
   "missions": [
     {
-      "id": "39e0",
+      "id": "79c3",
       "name": "GEMINI 12",
       "date": "11/11/1966",
       "image": "../images/gemini12.jpg",
@@ -11,64 +11,26 @@
       ],
       "space_shuttle": "Gemini 12",
       "country": "USA",
-      "isFavorite": true
-    },
-    {
-      "id": "fdba",
-      "name": "APOLLO 13",
-      "date": "04/11/1970",
-      "image": "../images/apollo13.jpg",
-      "crew": [
-        "Jim Lovell",
-        " Jack Swigert",
-        " Fred Haise"
-      ],
-      "space_shuttle": "Apollo 13",
-      "country": "USA",
-      "isFavorite": true
+      "isFavorite": false
     }
   ],
   "astronauts": [
     {
-      "id": "057c",
+      "id": "69b3",
       "name": "Jim Lovell",
-      "missions": [
-        "GEMINI 12",
-        "APOLLO 13"
-      ],
-      "country": "USA"
-    },
-    {
-      "id": "54a5",
-      "name": " Buzz Aldrin",
       "missions": [
         "GEMINI 12"
       ],
       "country": "USA"
     },
     {
-      "id": "b5bd",
-      "name": " Jack Swigert",
+      "id": "17f6",
+      "name": " Buzz Aldrin",
       "missions": [
-        "APOLLO 13"
+        "GEMINI 12"
       ],
-      "country": "USA"
-    },
-    {
-      "id": "868f",
-      "name": " Fred Haise",
-      "missions": [
-        "APOLLO 13"
-      ],
-      "country": "USA"
-    },
-    {
-      "id": "b5bc",
-      "name": " Sunita Williams",
-      "missions": [
-        "STS-116"
-      ],
-      "country": "USA"
+      "country": "USA",
+      "isInService": true
     }
   ]
 }
