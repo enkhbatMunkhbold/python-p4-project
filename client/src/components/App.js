@@ -71,7 +71,10 @@ function App() {
         <Routes>
           <Route path="/" element={ 
             <Home missions={missions} 
-              onUpdateMissions={updateMissions}              
+              astronauts={astronauts}
+              setAstronauts={setAstronauts}
+              onUpdateMissions={updateMissions}
+              onRemoveMission={removeMission}              
             />}/>
           <Route path="/missions" element={ 
             <Missions missions={missions} 
