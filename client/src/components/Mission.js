@@ -5,7 +5,7 @@ import "../stylesheets/mission.css"
 const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemoveMission }) => {
 
   const navigate = useNavigate()
-  const { id, date, image, crew, space_shuttle, country, isFavorite, name } = mission 
+  const { id, date, image_url, crew, space_shuttle, country, isFavorite, name } = mission 
   
   function handleFavoriteClick() {    
     fetch(`/missions/${id}`, {
@@ -75,7 +75,7 @@ const Mission = ({ mission, astronauts, setAstronauts, onUpdateMissions, onRemov
 
   return (
     <div className='card position-relative'>
-      <img src={image} alt={space_shuttle} />
+      <img src={image_url} alt={space_shuttle} />
       <div className="container">
         <h5>{space_shuttle}</h5>
         <p>Country: {country}</p> 

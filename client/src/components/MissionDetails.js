@@ -7,7 +7,7 @@ const MissionDetails = () => {
   const params = useParams();
   const missionId = params.id;
   const [mission, setMission] = useState({ crew: []})
-  const { name, date, image, crew, space_shuttle, country, isFavorite } = mission 
+  const { name, date, image_url, crew, space_shuttle, country, isFavorite } = mission 
 
   
   useEffect(() => {
@@ -28,7 +28,7 @@ const MissionDetails = () => {
       <hr className='border-line'/>
       <div className='row'>
         <div className='col-sm-4 mx-auto'>
-          <img src={image} alt={space_shuttle}/> 
+          <img src={image_url} alt={space_shuttle}/> 
           <div className='text'>
             <p><span>Country:</span> {country}</p>
             <p><span>Spacecraft:</span> {space_shuttle}</p>
