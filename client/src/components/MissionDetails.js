@@ -16,7 +16,10 @@ const MissionDetails = () => {
     .then(data => setMission(data))
   }, [missionId])
 
+  console.log("Mission:", mission)
+  
   const displayCrew = (list) => {
+    // console.log("Crew:", list)
     return list.map((astronaut, index) => {
       return <li key={index}>{astronaut}</li>
     })

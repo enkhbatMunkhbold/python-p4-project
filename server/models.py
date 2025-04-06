@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+from sqlalchemy import JSON
 
 from config import db
 
@@ -14,7 +15,7 @@ class Mission(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
     image_url = db.Column(db.String, nullable=False)
-    crew = db.Column(db.String, nullable=False)
+    crew = db.Column(JSON, nullable=False)
     space_shuttle = db.Column(db.String, nullable=False)
     country = db.Column(db.String, nullable=False)
     isFavorite = db.Column(db.Boolean, default=False)
@@ -52,8 +53,10 @@ class Mission(db.Model, SerializerMixin):
     
     @validates('crew')
     def validate_crew(self, _, value):
-        if not value or len(value.strip()) == 0:
+        if not value or len(value) == 0:
             raise ValueError("Crew information cannot be empty.")
+        if not isinstance(value, list):
+            raise ValueError("Crew must be a list of strings.")
         return value
     
     def __repr__(self):
