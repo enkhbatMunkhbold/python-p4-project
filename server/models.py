@@ -86,7 +86,7 @@ class Astronaut(db.Model, SerializerMixin):
         return self.validate_non_empty_string(key, value, 50)
     
     @validates('isInService')
-    def validate_is_in_service(self, key, value):
+    def validate_is_in_service(self, _, value):
         if not isinstance(value, bool):
             raise ValueError("isInService must be a boolean value.")
         return value
