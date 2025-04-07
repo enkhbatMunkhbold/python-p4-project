@@ -25,7 +25,8 @@ const Astronaut = ({ astronaut, onUpdateList, onRemoveAstronaut }) => {
   }
 
   function renderMissions(list = []) {
-    return list.length > 0 ? list.map((mission, index) => <li key={index}>{mission}</li>) : <li>No Missions</li>    
+    console.log('List of missions:', list)
+    return list.length > 0 ? list.map((mission, index) => <li key={index}>{mission.name}</li>) : <li>No Missions</li>    
   }
 
   function handleDelete() {

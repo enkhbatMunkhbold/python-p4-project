@@ -23,7 +23,7 @@ class Mission(db.Model, SerializerMixin):
     missions_astronauts = db.relationship('MissionsAstronauts', back_populates='mission', cascade='all, delete-orphan')
     astronauts = association_proxy('missions_astronauts', 'astronaut')
 
-    serialize_rules = ('-missions_astronauts.mission',)
+    serialize_rules = ('-missions_astronauts',)
 
     def validate_non_empty_string(self, key, value, max_length):
         if not value or len(value.strip()) == 0:
@@ -75,7 +75,7 @@ class Astronaut(db.Model, SerializerMixin):
     missions_astronauts = db.relationship('MissionsAstronauts', back_populates='astronaut', cascade='all, delete-orphan')
     missions = association_proxy('missions_astronauts', 'mission')
 
-    serialize_rules = ('-missions_astronauts.astronaut',)
+    serialize_only = ('id','name','country','missions.name','isInService')
 
     def validate_non_empty_string(self, key, value, max_length):
         if not value or len(value.strip()) == 0:
