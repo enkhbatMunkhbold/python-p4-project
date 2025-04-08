@@ -8,7 +8,7 @@ from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-from models import Mission, Astronaut, MissionsAstronauts  # Import models
+from models import Mission, Astronaut # Import models
 
 
 # Views go here!
@@ -25,6 +25,34 @@ class AstronautList(Resource):
 
 api.add_resource(AstronautList, '/astronauts')
 
+class AstronautByID(Resource):
+    def get(self, astronaut_id):
+        astronaut = Astronaut.query.filter(Astronaut.id == astronaut_id).first()
+        if not astronaut:
+            return {'error': 'Astronaut not found'}, 404
+        return astronaut.to_dict(), 200
+
+    def patch(self, astronaut_id):
+        data = request.get_json()
+        astronaut = Astronaut.query.filter(Astronaut.id == astronaut_id).first()
+        if not astronaut:
+            return {'error': 'Astronaut not found'}, 404
+        
+        for attr in data:
+            setattr(astronaut, attr, data[attr])
+
+        db.session.add(astronaut)
+        db.session.commit()
+
+        return astronaut.to_dict(), 200
+
+    def delete(self, astronaut_id):
+        astronaut = Astronaut.query.filter(Astronaut.id == astronaut_id).first()
+        db.session.delete(astronaut)
+        db.session.commit()
+        return '', 204
+
+api.add_resource(AstronautByID, '/astronauts/<int:astronaut_id>', '/astronauts')
 
 class MissionList(Resource):
     def get(self):
@@ -47,6 +75,7 @@ class MissionList(Resource):
             db.session.add(new_mission)
             db.session.commit()
             return new_mission.to_dict(), 201
+        
         except ValueError as e:
             return {'error': str(e)}, 400 
     
@@ -67,7 +96,7 @@ class MissionByID(Resource):
         db.session.commit()
         return new_mission.to_dict(), 201
 
-    def put(self, mission_id):
+    def patch(self, mission_id):
         data = request.get_json()
         mission = Mission.query.get_or_404(mission_id)
         for key, value in data.items():

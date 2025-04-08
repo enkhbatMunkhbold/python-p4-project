@@ -25,7 +25,6 @@ const Astronaut = ({ astronaut, onUpdateList, onRemoveAstronaut }) => {
   }
 
   function renderMissions(list = []) {
-    console.log('List of missions:', list)
     return list.length > 0 ? list.map((mission, index) => <li key={index}>{mission.name}</li>) : <li>No Missions</li>    
   }
 
@@ -33,8 +32,12 @@ const Astronaut = ({ astronaut, onUpdateList, onRemoveAstronaut }) => {
     fetch(`/astronauts/${id}`, {
       method: 'DELETE'
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) return null; // No content expected for DELETE
+      return res.json(); // Handle unexpected response body
+    })
     .then(() => onRemoveAstronaut(astronaut))
+    .catch(error => console.error('Error deleting astronaut:', error));
   }
 
   return (

@@ -3,12 +3,12 @@ import Mission from './Mission';
 import '../stylesheets/app.css'
 
 const Missions = ({ missions, astronauts, setAstronauts, onUpdateMissions, onRemoveMission }) => {
-
+ 
   function renderMissionsList(list) {
     return list.map(mission => {
       return (
         <Mission key={mission.id}
-          mission = {mission}
+          mission={mission}
           astronauts={astronauts}
           setAstronauts={setAstronauts}
           onUpdateMissions={onUpdateMissions}
