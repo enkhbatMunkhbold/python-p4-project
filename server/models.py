@@ -2,7 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 
-from config import db
+from config import db, bcrypt
 
 # Models go here!
 
@@ -11,7 +11,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+    password_hash = db.Column(db.String, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     # Relationships
@@ -20,6 +20,18 @@ class User(db.Model, SerializerMixin):
 
     # Serializer fields
     serialize_rules = ('-tickets.users', '-movies.users')
+
+    @hybrid_property
+    def password_hash(self):
+        raise Exception("Password hash is not accessible directly")
+
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self.password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password.encode('utf-8'))
 
     @validates('username')
     def validate_username(self, _, username):

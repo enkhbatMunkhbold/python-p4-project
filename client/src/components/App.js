@@ -3,11 +3,21 @@ import { Switch, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
-import Movies from "./Movies";
 import Login from "./Login";
-import "./index.css";
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/check_session").then(r => {
+      if(r.ok) {
+        r.json().then(user => setUser(user));
+      }
+    })
+  }, []);
+
+
   return (
     <>
       <NavBar user={user} setUser={setUser} />
