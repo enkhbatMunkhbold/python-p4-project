@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Login({ setUser }) {
+function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,7 +14,7 @@ function Login({ setUser }) {
       body: JSON.stringify({ username, password }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((user) => setUser(user));
+        r.json().then((user) => onLogin(user));
       } else {
         r.json().then(() => {
           alert("Username or password is incorrect!");
