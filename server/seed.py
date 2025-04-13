@@ -13,6 +13,7 @@ from models import db, User, Movie, Ticket
 def create_users():
   
     test_user = User(username='test_user')   
+    test_user.password_hash = 'test_password'
     return [test_user]
 
 def create_movies():

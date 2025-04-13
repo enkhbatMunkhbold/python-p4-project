@@ -12,18 +12,18 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    _password_hash = db.Column(db.String)
+    _password_hash = db.Column(db.String, nullable=False)
 
     # Relationships
     tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
     movies = association_proxy('tickets', 'movie')
 
     # Serializer fields
-    serialize_rules = ('-tickets.users', '-movies.users')
+    serialize_rules = ('-tickets.users', '-movies.users', '-_password_hash')
 
-    @hybrid_property
+    @property
     def password_hash(self):
-        raise Exception("Password hash is not accessible directly")
+        return self._password_hash
 
     @password_hash.setter
     def password_hash(self, password):

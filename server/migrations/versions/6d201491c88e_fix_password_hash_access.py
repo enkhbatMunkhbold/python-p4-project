@@ -1,8 +1,8 @@
-"""Initial migration
+"""Fix password hash access
 
-Revision ID: 7290cafbb9a6
+Revision ID: 6d201491c88e
 Revises: 
-Create Date: 2025-04-12 13:34:06.473557
+Create Date: 2025-04-12 19:30:33.890178
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7290cafbb9a6'
+revision = '6d201491c88e'
 down_revision = None
 branch_labels = None
 depends_on = None

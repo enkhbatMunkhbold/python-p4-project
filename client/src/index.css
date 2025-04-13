@@ -54,3 +54,24 @@ form input {
 form button[type="submit"] {
   width: 40%;
 }
+
+p {
+  margin: 0 auto;
+}
+
+.home p, h1 {  
+  color: salmon
+}
+
+.home h1 {
+  text-align: center;
+}
+
+.home img {
+  width: 100%; 
+  height: auto;
+}
+
+.movies {
+  color: #A62C2C;
+}

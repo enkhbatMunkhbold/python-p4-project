@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
@@ -18,10 +18,6 @@ function App() {
     })
   }, []);
 
-  function handleLogin(user) {
-    setUser(user);
-  }
-
   function handleLogout() {   
     fetch("/logout", {
       method: "DELETE",
@@ -34,33 +30,23 @@ function App() {
 
 
   return (
-    <>
+    <Router>
       <NavBar user={user} onLogout={handleLogout} />
       <main>
         {user ? (
-          <Switch>
-            <Route path="/">
-              <Home user={user}/>
-            </Route>
-            <Route path="movies">
-              <Movies />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Home user={user} />} /> 
+            <Route path="movies" element={<Movies />} />
+          </Routes>
         ) : (
-          <Switch>
-            <Route path="/signup">
-              <SignUp setUser={setUser} />
-            </Route>
-            <Route path="/login">
-              <Login onLogin={handleLogin} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/signup" element={<SignUp setUser={setUser} />} />
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/" element={<Home user={user} />} />
+          </Routes>
         )}
       </main>
-    </>
+    </Router>
   );
 }
 

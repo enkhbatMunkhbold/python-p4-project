@@ -67,9 +67,7 @@ api.add_resource(ClearSession, '/clear')
 class SignUp(Resource):
     def post(self):
         data = request.get_json()
-        new_user = User(
-            username=data['username']        
-        )
+        new_user = User(username=data['username'])
         new_user.password_hash = data['password']
         db.session.add(new_user)
         db.session.commit()

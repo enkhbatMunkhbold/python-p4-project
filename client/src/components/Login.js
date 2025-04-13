@@ -1,31 +1,37 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ onLogin }) {
+function Login({ setUser }) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e) {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    }).then((r) => {
-      if (r.ok) {
-        r.json().then((user) => onLogin(user));
-      } else {
-        r.json().then(() => {
-          alert("Username or password is incorrect!");
-        });
+    try {
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      if (response.ok) {
+        const user = await response.json();
+        setUser(user);  
+        navigate("/"); 
       }
-    });
-  }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <h1>Login</h1>
         <label htmlFor="username">Username</label>
         <input
