@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
+import Movies from "./Movies";
 
 function App() {
 
@@ -40,6 +41,9 @@ function App() {
           <Switch>
             <Route path="/">
               <Home user={user}/>
+            </Route>
+            <Route path="movies">
+              <Movies />
             </Route>
           </Switch>
         ) : (

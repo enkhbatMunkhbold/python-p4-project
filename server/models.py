@@ -12,8 +12,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password_hash = db.Column(db.String, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    _password_hash = db.Column(db.String)
 
     # Relationships
     tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
@@ -29,7 +28,7 @@ class User(db.Model, SerializerMixin):
     @password_hash.setter
     def password_hash(self, password):
         password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
-        self.password_hash = password_hash.decode('utf-8')
+        self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self.password_hash, password.encode('utf-8'))
@@ -42,14 +41,6 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Username must be at least 3 characters long")
         return username
     
-    @validates('email')
-    def validate_email(self, _, email):
-        if not email:
-            raise ValueError("Email cannot be empty")
-        if '@' not in email or '.' not in email.split('@')[-1]:
-            raise ValueError("Invalid email format")
-        return email  
-
 
 class Movie(db.Model, SerializerMixin):
     __tablename__ = 'movies'

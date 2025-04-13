@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import request
+from flask import request, session
 from flask_restful import Resource
 
 from config import app, db, api
@@ -56,6 +56,56 @@ class Tickets(Resource):
         return new_ticket.to_dict(), 201
     
 api.add_resource(Tickets, '/tickets')
+
+class ClearSession(Resource):
+    def delete(self):
+        db.session.remove()
+        return '', 204
+
+api.add_resource(ClearSession, '/clear')
+
+class SignUp(Resource):
+    def post(self):
+        data = request.get_json()
+        new_user = User(
+            username=data['username']        
+        )
+        new_user.password_hash = data['password']
+        db.session.add(new_user)
+        db.session.commit()
+        session['user_id'] = new_user.id
+        return new_user.to_dict(), 201
+
+api.add_resource(SignUp, '/signup')
+
+class CheckSession(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.filter(User.id == session['user_id']).first()
+            return user.to_dict(), 200
+        
+        return {}, 204
+    
+api.add_resource(CheckSession, '/check_session')
+
+class Login(Resource):
+    def post(self):
+        data = request.get_json()
+        user = User.query.filter_by(username=data['username']).first()
+        if user and user.authenticate(data['password']):
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+        return {'message': 'Invalid credentials'}, 401
+        
+api.add_resource(Login, '/login')
+
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {}, 204
+
+api.add_resource(Logout, '/logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

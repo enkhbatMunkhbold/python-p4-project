@@ -8,7 +8,7 @@ function Home({ user }) {
         <p>Login or Sign Up to get started!</p>
         <br />
         <img
-          src="../ticket.png"
+          src="/ticket.png"
           alt="movie tickets"
           style={{ width: "100%", height: "auto" }}
         />

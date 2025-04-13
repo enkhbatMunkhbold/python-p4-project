@@ -11,16 +11,9 @@ from app import app
 from models import db, User, Movie, Ticket
 
 def create_users():
-    users = []
-    for _ in range(10):
-        user = User(
-            username=fake.user_name(),
-            password=fake.password(),
-            email=fake.email()
-        )
-        users.append(user)
-   
-    return users
+  
+    test_user = User(username='test_user')   
+    return [test_user]
 
 def create_movies():
     movies = []
@@ -39,18 +32,31 @@ def create_movies():
 
 def create_tickets():
     tickets = []
-    users = User.query.all()
+    # users = User.query.all()
+    test_user = User.query.first()
     movies = Movie.query.all()
-    for _ in range(20):
+
+    for _ in range(10):
         ticket = Ticket(
             ticket_number=randint(1, 5),
             time=rc(Ticket.AVAILABLE_TIMES),
-            user=rc(users),
+            user=test_user,
             movie=rc(movies)
         )
         ticket.total_price = ticket.ticket_number * ticket.movie.price
-        tickets.append(ticket)
-    
+        tickets.append(ticket)  
+
+        # other_users = User.query.filter(User.username!= "test_user").all()
+        # for _ in range(10):
+        #     ticket = Ticket(
+        #         ticket_number=randint(1, 5),
+        #         time=rc(Ticket.AVAILABLE_TIMES),
+        #         user=rc(other_users),
+        #         movie=rc(movies)
+        #     )
+        #     ticket.total_price = ticket.ticket_number * ticket.movie.price
+        #     tickets.append(ticket)  
+
     return tickets
 
 
