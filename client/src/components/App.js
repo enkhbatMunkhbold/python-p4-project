@@ -14,8 +14,10 @@ function App() {
     fetch("/check_session").then(r => {
       if(r.ok) {
         r.json().then(user => setUser(user));
+      } else {
+        setUser(null)
       }
-    })
+    }).catch(error => console.error("Error checking session:", error));
   }, []);
 
   function handleLogout() {   
@@ -36,7 +38,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<Home user={user} />} /> 
-            <Route path="movies" element={<Movies />} />
+            <Route path="/movies" element={<Movies />} />
           </Routes>
         ) : (
           <Routes>

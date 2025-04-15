@@ -55,10 +55,6 @@ form button[type="submit"] {
   width: 40%;
 }
 
-p {
-  margin: 0 auto;
-}
-
 .home p, h1 {  
   color: salmon
 }
@@ -67,8 +63,10 @@ p {
   text-align: center;
 }
 
-.home img {
-  width: 100%; 
+.home img, p {
+  display: block;
+  margin: 0 auto;
+  width: 30%; 
   height: auto;
 }
 

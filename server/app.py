@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import request, session
+from flask import request, session, jsonify, make_response
 from flask_restful import Resource
 
 from config import app, db, api
@@ -81,7 +81,7 @@ class CheckSession(Resource):
         user_id = session.get('user_id')
         if user_id:
             user = User.query.filter(User.id == session['user_id']).first()
-            return user.to_dict(), 200
+            return make_response( jsonify(user.to_dict()), 200 ) 
         
         return {}, 204
     
@@ -93,7 +93,7 @@ class Login(Resource):
         user = User.query.filter_by(username=data['username']).first()
         if user and user.authenticate(data['password']):
             session['user_id'] = user.id
-            return user.to_dict(), 200
+            return make_response( jsonify(user.to_dict()), 200 )
         return {'message': 'Invalid credentials'}, 401
         
 api.add_resource(Login, '/login')
