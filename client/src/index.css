@@ -55,7 +55,7 @@ form button[type="submit"] {
   width: 40%;
 }
 
-.home p, h1 {  
+.home p, h1, h2, ul{  
   color: salmon
 }
 

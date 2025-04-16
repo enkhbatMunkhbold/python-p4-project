@@ -1,8 +1,22 @@
-import Movies from "./Movies";
 
-function Home({ user }) {
+function Home({ user, movies }) {
+
+  function renderMovies(list) {
+    return list.map( movie => {
+      return (
+        <li key={movie.id}>
+          <h3>{movie.title}</h3>
+        </li>
+      )
+    })
+  }
+
   if (user) {
-    return <h1>Welcome, {user.username}!</h1>;
+    return (
+      <div>
+        <h1>Welcome, {user.username}!</h1>
+      </div>      
+    )
   } else {
     return (
       <div className="home">
@@ -14,7 +28,8 @@ function Home({ user }) {
         />
         <p>Login or Sign Up to get started!</p>
         <br />
-        <Movies />
+        <h2>List of Movies</h2>   
+        <ul className="list">{renderMovies(movies)}</ul>
         <br /><br />
       </div>   
     )
