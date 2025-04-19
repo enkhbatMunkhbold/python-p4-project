@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp({ setUser }) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -20,8 +22,8 @@ function SignUp({ setUser }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((user) => {
-          console.log("User signed:", user);
           setUser(user)
+          navigate("/profile");
         });
       }
     });

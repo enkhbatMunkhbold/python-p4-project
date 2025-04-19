@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
 import Movies from "./Movies";
+import UserProfile from "./UserProfile";
 
 function App() {
 
@@ -29,8 +30,7 @@ function App() {
         console.error("Error fetching movies:", r.statusText);
       }
     }).catch(error => console.error("Error fetching movies:", error));
-  }
-  , []);
+  }, []);
 
   function handleLogout() {   
     fetch("/logout", {
@@ -49,8 +49,9 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home user={user} />} /> 
+            <Route path="/" element={<Home user={user} movies={movies} />} /> 
             <Route path="/movies" element={<Movies movies={movies} />} />
+            <Route path="/profile" element={<UserProfile user={user} movies={movies} />} />
           </Routes>
         ) : (
           <Routes>

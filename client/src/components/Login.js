@@ -22,7 +22,7 @@ function Login({ setUser }) {
       if (response.ok) {
         const user = await response.json();
         setUser(user);  
-        navigate(`/users/${user.id}`); 
+        navigate("/profile"); 
       }
     } catch (error) {
       console.error("Login error:", error);
