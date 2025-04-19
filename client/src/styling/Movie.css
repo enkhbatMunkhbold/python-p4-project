@@ -27,22 +27,30 @@
   flex-grow: 1;
 }
 
-.movie-content:hover button {
+.movie-content button:hover {
   background-color: #A4E1E0;
   text-decoration: none;
   color: white;
 }
 
-/* .select {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 20px;
+.selection-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.select:hover {
-  background-color: #0056b3;
-} */
+.ticket-selection,
+.time-selection {
+  padding: 8px;
+  border: 1px solid salmon;
+  border-radius: 4px;
+  background-color: #fff8e7;
+  color: salmon;
+  cursor: pointer;
+}
+
+.ticket-selection:focus,
+.time-selection:focus {
+  outline: none;
+  border-color: #FF6363;
+}
