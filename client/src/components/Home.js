@@ -22,7 +22,7 @@ function Home({ user, movies }) {
   if (user) {
     return (
       <div>
-        <h1>Welcome, {user.username}!</h1>
+        <h1>Welcome, {user.username}!</h1>        
         <ul>{renderPurchaseMovies}</ul>
       </div>      
     )

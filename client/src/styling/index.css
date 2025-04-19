@@ -33,6 +33,11 @@ header button {
   cursor: pointer;
 }
 
+header a:hover,
+header button:hover {
+  background-color: #f7e1d7;
+}
+
 main {
   margin: 1rem;
 }
