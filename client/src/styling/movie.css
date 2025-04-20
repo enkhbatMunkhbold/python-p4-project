@@ -1,0 +1,72 @@
+.movie-item {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.movie-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.selection-controls {
+  padding-top: 15px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ticket-selection,
+.time-selection {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.ticket-selection:focus,
+.time-selection:focus {
+  outline: none;
+  border-color: #f7e1d7;
+  box-shadow: 0 0 5px rgba(247, 225, 215, 0.5);
+}
+
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.price-preview {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.buy-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+  background-color: #0056b3;
+}
+
+.buy-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

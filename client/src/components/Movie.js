@@ -1,19 +1,65 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import "../styling/Movie.css"
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import "../styling/movie.css"
 
-const Movie = ({ movie }) => {
+const Movie = ({ user, movie }) => {
   const navigate = useNavigate()
-  const [ selectedNumber, setSelectedNumber ] = useState(1)
-  const [ selectedTime, setSelectedTime ] = useState('12:00 pm')
-
   const time = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
+  
 
-  const handleSelect = () => {
-    navigate("/profile", { state: { movieId: movie.id } })
-  }
+  console.log("UserObject:", user)
+  console.log("MovieObject:", movie)
 
+  const formSchema = Yup.object().shape({
+    ticketNumber: Yup.number()
+      .required('Please select a number of tickets')
+      .min(1, 'At least one ticket is required')
+      .max(10, 'You can select up to 10 tickets'),
+    showTime: Yup.string()
+      .required('Please select a time'),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      ticketNumber: 1,
+      showTime: '12:00 pm',
+    },
+    validationSchema: formSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch('/tickets', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ticket_number: parseInt(values.ticketNumber),
+            time: values.showTime,
+            total_price: movie.price * parseInt(values.ticketNumber),
+            movie_id: movie.id,
+            user_id: user.id
+          }),
+        })
+        if (response.ok) {
+          const newTicket = await response.json()
+          navigate('/profile', {
+            state: { 
+              movieId: movie.id,
+              ticket: newTicket
+            }
+          })
+        } else {
+          const errorData = await response.json()
+          formik.setErrors({ submit: errorData.error || "Failed to purchase ticket" })
+        }        
+      } catch (error) {
+        formik.setErrors({ submit: "An error occurred while processing your request" })
+      }
+    },
+  })
 
   if(!movie) return <div>Loading...</div>
 
@@ -21,29 +67,50 @@ const Movie = ({ movie }) => {
     <div className='movie-item'>
       <div className='movie-content'>
         <h3>{movie.title}</h3>
-        <div className='selection-controls'>
-          <select
-            value={selectedNumber}
-            onChange={(e) => setSelectedNumber(e.target.value)}
-            className='ticket-selection'
+        <form onSubmit={formik.handleSubmit} className='selection-controls'>
+          <div className='form-group'>
+            <select
+              name="ticketNumber"
+              value={formik.values.ticketNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className='ticket-selection'
+            >
+              {numbers.map(num => (
+                <option key={num} value={num}>
+                  {num} ticket{num > 1 ? 's' : ''}
+                </option>
+              ))}
+            </select>
+            {formik.touched.ticketNumber && formik.errors.ticketNumber ? (
+              <div className='error'>{formik.errors.ticketNumber}</div>
+            ) : null}
+          </div>
+          <div className='form-group'>
+            <select
+              name="showTime"
+              value={formik.values.showTime}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className='time-selection'
+            >
+              {time.map(t => (<option key={t} value={t}>{t}</option>))}
+            </select>
+            {formik.touched.showTime && formik.errors.showTime ? (
+              <div className='error'>{formik.errors.showTime}</div>
+            ) : null}
+          </div>
+          <div className='price-preview'>
+            Total: ${(movie.price * (formik.values.ticketNumber || 1)).toFixed(2)}
+          </div>
+          <button 
+            type="submit"
+            className='buy-ticket'
+            disabled={!formik.isValid || formik.isSubmitting}
           >
-            {numbers.map(num => (
-              <option key={num} value={num}>
-                {num} ticket{num > 1 ? 's' : ''}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-            className='time-selection'
-          >
-            {time.map(t => (<option key={t} value={t}>{t}</option>))}
-          </select>
-        </div>
-        <button onClick={handleSelect}>
-          SELECT
-        </button>  
+            {formik.isSubmitting ? 'Processing...' : 'Buy Ticket'}
+          </button> 
+        </form> 
       </div>      
     </div>
   )

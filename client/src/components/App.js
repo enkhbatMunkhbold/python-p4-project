@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
-import Movies from "./Movies";
+import Movie from "./Movie";
 import UserProfile from "./UserProfile";
 
 function App() {
@@ -42,6 +42,8 @@ function App() {
     });
   }
 
+  console.log("User:", user);
+
 
   return (
     <Router>
@@ -50,7 +52,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<Home user={user} movies={movies} />} /> 
-            <Route path="/movies" element={<Movies movies={movies} />} />
+            <Route path="/movies" element={<Movie user={user} movies={movies} />} />
             <Route path="/profile" element={<UserProfile user={user} movies={movies} />} />
           </Routes>
         ) : (

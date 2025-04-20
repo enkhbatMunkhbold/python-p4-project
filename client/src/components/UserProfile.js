@@ -13,7 +13,7 @@ const UserProfile = ({ user, movies }) => {
 
   return (
     <div>
-      <h2>{user.username}, your purchased tickets</h2>
+      <h2>{user.username}, your tickets</h2>
       <div className='user-profile'>
         <h5>Tickets Purchased: {user.tickets.length}</h5>
       </div>  
