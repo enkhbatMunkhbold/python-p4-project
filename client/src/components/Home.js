@@ -2,7 +2,7 @@ import React from 'react';
 import Movie from './Movie';
 import "../styling/movie.css"
 
-function Home({ user, movies }) {
+function Home({ user, movies, setTickets }) {
 
   function renderMovies(list) {
     return list.map( movie => {
@@ -15,7 +15,7 @@ function Home({ user, movies }) {
   }
 
   const renderPurchaseMovies = movies.map( movie => {
-      return <Movie key={movie.id} movie={movie} user={user}/>
+      return <Movie key={movie.id} movie={movie} user={user} setTickets={setTickets} />
   })
   
 

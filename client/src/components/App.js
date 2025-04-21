@@ -4,13 +4,14 @@ import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
-import Movie from "./Movie";
+// import Movie from "./Movie";
 import UserProfile from "./UserProfile";
 
 function App() {
 
   const [user, setUser] = useState(null);
   const [movies, setMovies] = useState([]);
+  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
     fetch("/check_session")
@@ -58,9 +59,9 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home user={user} movies={movies} />} /> 
-            <Route path="/movies" element={<Movie movies={movies} />} />
-            <Route path="/profile" element={<UserProfile user={user} movies={movies} />} />
+            <Route path="/" element={<Home user={user} movies={movies} setTickets={setTickets} />} /> 
+            {/* <Route path="/movies" element={<Movie movies={movies}  />} /> */}
+            <Route path="/profile" element={<UserProfile user={user} movies={movies} tickets={tickets} />} />
           </Routes>
         ) : (
           <Routes>
