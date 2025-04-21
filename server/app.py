@@ -22,7 +22,7 @@ api.add_resource(Users, '/users')
 class Movies(Resource):
     def get(self):
         movies = [movie.to_dict() for movie in Movie.query.all()]
-        return movies, 200
+        return make_response(jsonify(movies), 200)
     
     def post(self):
         data = request.get_json()
@@ -44,16 +44,32 @@ class Tickets(Resource):
         return tickets, 200
     
     def post(self):
-        data = request.get_json()
-        new_ticket = Ticket(
-            ticket_number=data['ticket_number'],
-            time=data['time'],
-            user_id=data['user_id'],
-            movie_id=data['movie_id']
-        )
-        db.session.add(new_ticket)
-        db.session.commit()
-        return new_ticket.to_dict(), 201
+        try:
+            data = request.get_json()        
+            
+            movie = Movie.query.get(data['movie_id'])
+            if not movie:
+                return {'error': 'Movie not found'}, 404
+            
+            ticket_number = int(data['ticket_number'])
+            total_price = movie.price * ticket_number
+           
+            new_ticket = Ticket(
+                ticket_number=ticket_number,
+                total_price=total_price,  
+                time=data['time'],
+                user_id=data['user_id'],
+                movie_id=data['movie_id']
+            )
+
+            db.session.add(new_ticket)
+            db.session.commit()
+
+            return new_ticket.to_dict(), 201
+
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 400
     
 api.add_resource(Tickets, '/tickets')
 
@@ -80,8 +96,9 @@ class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
         if user_id:
-            user = User.query.filter(User.id == session['user_id']).first()
-            return make_response( jsonify(user.to_dict()), 200 ) 
+            user = User.query.filter(User.id == user_id).first()
+            if user:
+                return make_response( jsonify(user.to_dict()), 200 ) 
         
         return {}, 204
     

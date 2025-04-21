@@ -8,10 +8,6 @@ const Movie = ({ user, movie }) => {
   const navigate = useNavigate()
   const time = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
   const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
-  
-
-  console.log("UserObject:", user)
-  console.log("MovieObject:", movie)
 
   const formSchema = Yup.object().shape({
     ticketNumber: Yup.number()
@@ -24,7 +20,7 @@ const Movie = ({ user, movie }) => {
 
   const formik = useFormik({
     initialValues: {
-      ticketNumber: 1,
+      ticketNumber: 0,
       showTime: '12:00 pm',
     },
     validationSchema: formSchema,
@@ -100,8 +96,11 @@ const Movie = ({ user, movie }) => {
               <div className='error'>{formik.errors.showTime}</div>
             ) : null}
           </div>
+          <div>
+            Price: ${movie.price.toFixed(2)}
+          </div>
           <div className='price-preview'>
-            Total: ${(movie.price * (formik.values.ticketNumber || 1)).toFixed(2)}
+            Total: ${(movie.price * formik.values.ticketNumber).toFixed(2)}
           </div>
           <button 
             type="submit"

@@ -13,23 +13,33 @@ function App() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch("/check_session").then(r => {
+    fetch("/check_session")
+    .then(r => {
       if(r.ok) {
         r.json().then(user => setUser(user));
-      } else {
+      } else if (r.status === 204) {
         setUser(null)
       }
-    }).catch(error => console.error("Error checking session:", error));
+    }).catch(error => {
+      console.error("Error checking session:", error)
+      setUser(null)
+    });
   }, []);
 
   useEffect(() => {
-    fetch("/movies").then(r => {
+    fetch("/movies")
+    .then(r => {
       if(r.ok) {
         r.json().then(movies => setMovies(movies));
       } else {
         console.error("Error fetching movies:", r.statusText);
+        return []
       }
-    }).catch(error => console.error("Error fetching movies:", error));
+    })
+    .catch(error => {
+      console.error("Error fetching movies:", error)
+      setMovies([])
+    });
   }, []);
 
   function handleLogout() {   
@@ -42,9 +52,6 @@ function App() {
     });
   }
 
-  console.log("User:", user);
-
-
   return (
     <Router>
       <NavBar user={user} onLogout={handleLogout} />
@@ -52,7 +59,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<Home user={user} movies={movies} />} /> 
-            <Route path="/movies" element={<Movie user={user} movies={movies} />} />
+            <Route path="/movies" element={<Movie movies={movies} />} />
             <Route path="/profile" element={<UserProfile user={user} movies={movies} />} />
           </Routes>
         ) : (

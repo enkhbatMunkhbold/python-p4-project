@@ -19,7 +19,14 @@ class User(db.Model, SerializerMixin):
     movies = association_proxy('tickets', 'movie')
 
     # Serializer fields
-    serialize_rules = ('-tickets.users', '-movies.users', '-_password_hash')
+    serialize_rules = ('-tickets.user', '-_password_hash')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'tickets': [ticket.to_dict() for ticket in self.tickets]
+        }
 
     @property
     def password_hash(self):

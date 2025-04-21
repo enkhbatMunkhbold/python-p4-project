@@ -28,8 +28,11 @@
 .ticket-selection,
 .time-selection {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid salmon;
   border-radius: 4px;
+  background-color: #fff8e7;
+  color: salmon;
+  cursor: pointer;
   font-size: 14px;
   min-width: 120px;
 }
@@ -37,8 +40,13 @@
 .ticket-selection:focus,
 .time-selection:focus {
   outline: none;
-  border-color: #f7e1d7;
+  border-color: #ff6363;
   box-shadow: 0 0 5px rgba(247, 225, 215, 0.5);
+}
+
+.ticket-selection:hover,
+.time-selection:hover {
+  background-color: #ffe4d1;
 }
 
 .error {
@@ -52,21 +60,21 @@
   color: #28a745;
 }
 
-.buy-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.buy-ticket {
+  font-size: 0.8rem;
+  display: inline-block;
+  background-color: #D1F8EF;
+  border: 1px solid #578FCA;
+  margin: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: #578FCA;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.buy-button:hover {
-  background-color: #0056b3;
+.buy-ticket:hover {
+  background-color: #A4E1E0;
+  text-decoration: none;
+  color: white;
 }
 
-.buy-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
