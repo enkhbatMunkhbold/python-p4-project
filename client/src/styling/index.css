@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-width: 900px;
+  color: salmon
 }
 
 code {
@@ -58,10 +59,6 @@ form input {
 
 form button[type="submit"] {
   width: 40%;
-}
-
-.home p, h1, h2, ul{  
-  color: salmon
 }
 
 .home h1 {

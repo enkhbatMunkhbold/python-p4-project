@@ -1,24 +1,17 @@
 import React from 'react'
-// import { useLocation } from 'react-router-dom'
 import Ticket from './Ticket'
 
 
-const UserProfile = ({ user, movies, tickets }) => {
-
-  // const location = useLocation()
-  // const { ticket } = location.state || {}
-
-  // function renderTickets(list) {
-  //   return list.map(ticket => {
-  //     return (
-  //       <li key={ticket.id}>
-  //         <Ticket ticket={ticket} />
-  //       </li>
-  //     )
-  //   })
-  // } 
-
+const UserProfile = ({ user, setUser }) => {
   if (!user) return <div>Loading...</div>;
+
+
+  function handleDeleteTicket(ticketId) {
+    setUser(prevUser => ({
+      ...prevUser,
+      tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
+    }));
+  }
 
   return (
     <div>
@@ -29,7 +22,7 @@ const UserProfile = ({ user, movies, tickets }) => {
           <ul>
             {user.tickets.map(ticket => (
               <li key={ticket.id}>
-                <Ticket ticket={ticket} />
+                <Ticket ticket={ticket} onDeleteTicket={handleDeleteTicket}/>
               </li>
             ))}
           </ul>

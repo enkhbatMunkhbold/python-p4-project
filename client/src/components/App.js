@@ -4,7 +4,6 @@ import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
-// import Movie from "./Movie";
 import UserProfile from "./UserProfile";
 
 function App() {
@@ -60,8 +59,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<Home user={user} movies={movies} setTickets={setTickets} />} /> 
-            {/* <Route path="/movies" element={<Movie movies={movies}  />} /> */}
-            <Route path="/profile" element={<UserProfile user={user} movies={movies} tickets={tickets} />} />
+            <Route path="/profile" element={<UserProfile tickets={tickets} user={user} setUser={setUser}/>} />
           </Routes>
         ) : (
           <Routes>
