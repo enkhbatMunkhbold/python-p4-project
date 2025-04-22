@@ -58,7 +58,16 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home user={user} movies={movies} setTickets={setTickets} />} /> 
+            <Route path="/" 
+              element={
+                <Home 
+                  user={user} 
+                  setUser={setUser} 
+                  movies={movies} 
+                  setMovies={setMovies}
+                  setTickets={setTickets} 
+                />} 
+              /> 
             <Route path="/profile" element={<UserProfile tickets={tickets} user={user} setUser={setUser}/>} />
           </Routes>
         ) : (

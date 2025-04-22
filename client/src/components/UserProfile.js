@@ -21,9 +21,7 @@ const UserProfile = ({ user, setUser }) => {
         {user.tickets && user.tickets.length > 0 ? (
           <ul>
             {user.tickets.map(ticket => (
-              <li key={ticket.id}>
-                <Ticket ticket={ticket} onDeleteTicket={handleDeleteTicket}/>
-              </li>
+              <Ticket key={ticket.id} ticket={ticket} onDeleteTicket={handleDeleteTicket}/>
             ))}
           </ul>
         ) : (

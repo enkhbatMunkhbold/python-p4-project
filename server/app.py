@@ -33,7 +33,7 @@ class Movies(Resource):
         )
         db.session.add(new_movie)
         db.session.commit()
-        return new_movie.to_dict(), 201
+        return make_response(jsonify(new_movie.to_dict()), 201)
     
 api.add_resource(Movies, '/movies')
 
@@ -69,9 +69,22 @@ class Tickets(Resource):
 
         except Exception as e:
             db.session.rollback()
-            return {'error': str(e)}, 400
+            return {'error': str(e)}, 400   
     
 api.add_resource(Tickets, '/tickets')
+
+class TicketById(Resource):
+     def delete(self, ticket_id):
+        ticket = Ticket.query.filter_by(id = ticket_id).first()
+        
+        if not ticket:
+            return {'error': 'Ticket not found'}, 404
+        
+        db.session.delete(ticket)
+        db.session.commit()
+        return {}, 204
+     
+api.add_resource(TicketById, '/tickets/<int:ticket_id>')
 
 class ClearSession(Resource):
     def delete(self):

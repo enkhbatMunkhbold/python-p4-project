@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import "../styling/movie.css"
 
-const Movie = ({ user, movie, setTickets }) => {
+const Movie = ({ user, setUser, movie, setTickets }) => {
   const navigate = useNavigate()
   const time = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
   const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -48,6 +48,10 @@ const Movie = ({ user, movie, setTickets }) => {
             }
           })
           setTickets((prevTickets) => [...prevTickets, newTicket])
+          setUser((prevUser) => ({
+            ...prevUser,
+            tickets: [...prevUser.tickets, newTicket]
+          }))
         } else {
           const errorData = await response.json()
           formik.setErrors({ submit: errorData.error || "Failed to purchase ticket" })

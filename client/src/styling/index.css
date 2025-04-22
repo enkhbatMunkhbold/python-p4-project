@@ -22,7 +22,7 @@ header {
 }
 
 header a,
-header button {
+header button, .btn {
   font-size: 1rem;
   display: inline-block;
   background-color: #fff8e7;
@@ -35,7 +35,8 @@ header button {
 }
 
 header a:hover,
-header button:hover {
+header button:hover,
+.btn:hover {
   background-color: #f7e1d7;
 }
 
@@ -74,4 +75,17 @@ form button[type="submit"] {
 
 .movies {
   color: #A62C2C;
+}
+
+.movie-form {
+  margin-top: 20px;
+}
+
+.movie-form .form-group {
+  margin-bottom: 15px;
+}
+
+.movie-form .error {
+  color: red;
+  font-size: 0.9rem;
 }
