@@ -5,8 +5,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import db, bcrypt
 
-# Models go here!
-
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -14,11 +12,9 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
-    # Relationships
     tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
     movies = association_proxy('tickets', 'movie')
 
-    # Serializer fields
     serialize_rules = ('-tickets.user', '-_password_hash')
 
     def to_dict(self):
@@ -57,13 +53,10 @@ class Movie(db.Model, SerializerMixin):
     genre = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
 
-
-    # Relationships
     tickets = db.relationship('Ticket', back_populates='movie', cascade='all, delete-orphan')
     users = association_proxy('tickets', 'user')
 
-    # Serializer fields
-    serialize_rules = ('-tickets',)
+    serialize_rules = ('-users',)
 
     @validates('title', 'genre')
     def validate_non_empty_string(self, key, value):
@@ -89,16 +82,12 @@ class Ticket(db.Model, SerializerMixin):
     ticket_number = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float(precision=2), nullable=False)
     time = db.Column(db.String(20), nullable=False)
-
-    # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
 
-    # Relationships
     user = db.relationship('User', back_populates='tickets')
     movie = db.relationship('Movie', back_populates='tickets')
 
-    # Serializer fields
     serialize_rules = ('-user.tickets', '-movie.tickets')
 
     @validates('total_price')

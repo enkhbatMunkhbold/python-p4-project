@@ -77,6 +77,9 @@ const Movie = ({ user, setUser, movie, setTickets }) => {
               onBlur={formik.handleBlur}
               className='ticket-selection'
             >
+              <option value="">
+                Select
+              </option>
               {numbers.map(num => (
                 <option key={num} value={num}>
                   {num} ticket{num > 1 ? 's' : ''}

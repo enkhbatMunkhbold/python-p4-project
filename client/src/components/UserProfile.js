@@ -13,6 +13,15 @@ const UserProfile = ({ user, setUser }) => {
     }));
   }
 
+  function handleEditTicket(ticketId) {
+    setUser(prevUser => ({
+      ...prevUser,
+      tickets: prevUser.tickets.map(ticket => 
+        ticket.id === ticketId ? { ...ticket, isEditing: true } : ticket
+      ),
+    }));
+  }
+
   return (
     <div>
       <h2>Welcome, {user.username}</h2>
@@ -21,7 +30,7 @@ const UserProfile = ({ user, setUser }) => {
         {user.tickets && user.tickets.length > 0 ? (
           <ul>
             {user.tickets.map(ticket => (
-              <Ticket key={ticket.id} ticket={ticket} onDeleteTicket={handleDeleteTicket}/>
+              <Ticket key={ticket.id} ticket={ticket} onEditTicket={handleEditTicket} onDeleteTicket={handleDeleteTicket}/>
             ))}
           </ul>
         ) : (

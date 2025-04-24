@@ -56,11 +56,31 @@
   transform: scale(0.98);
 }
 
-/* Responsive design */
+.edit-button {
+  background-color: #D1F8EF;
+  color: #578FCA;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 20px;
+}
+
+.edit-button:hover {
+  background-color: #A4E1E0;
+  color: white;
+}
+
+.edit-button:active {
+  transform: scale(0.98);
+}
+
 @media (max-width: 768px) {
   .ticket-info {
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 1rem;
     gap: 10px;
   }
   
@@ -72,4 +92,81 @@
   .delete-button {
     width: 100%;
   }
+}
+
+.edit-form {
+  width: 100%;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.edit-select.error {
+  border-color: #dc3545;
+}
+
+.edit-select {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  min-width: 120px;
+  background-color: white;
+  font-size: 1rem;
+}
+
+.edit-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.submit-button:disabled,
+.cancel-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .edit-form {
+    padding: 10px;
+  }
+
+  .ticket-detail {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+    width: 100%;
+  } 
+}
+
+.submit-button,
+.cancel-button,
+.edit-select {
+  padding: 8px 12px;
+  border: 1px solid salmon;
+  border-radius: 4px;
+  background-color: #fff8e7;
+  color: salmon;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.submit-button:hover,
+.cancel-button:hover,
+.edit-select:hover {
+  background-color: #ffe4d1;
 }
