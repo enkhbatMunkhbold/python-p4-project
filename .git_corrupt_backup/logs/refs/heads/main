@@ -1,0 +1,19 @@
+0000000000000000000000000000000000000000 24ec37fcd634214b1dac57828c9605d5baca2d6d Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744241062 -0700	clone: from github.com:enkhbatMunkhbold/python-p4-project-template.git
+24ec37fcd634214b1dac57828c9605d5baca2d6d 865547db0e775fd41d50888b3a8e3b7853158055 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744345929 -0700	commit: Add Front-End components
+865547db0e775fd41d50888b3a8e3b7853158055 bfd2438fd7f0fb1b61f3c388312a2f9f0dc42ca7 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744401673 -0700	commit: Add Movies component
+bfd2438fd7f0fb1b61f3c388312a2f9f0dc42ca7 6b73fb34b76560ad5df01a07505897562facb54d Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744419236 -0700	commit: Add Login component into Front-End and add password handle functionality into Back-End
+6b73fb34b76560ad5df01a07505897562facb54d 3c9c566adc538003496f5d5d3b2ffecf61ef680d Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744427853 -0700	commit: Current status
+3c9c566adc538003496f5d5d3b2ffecf61ef680d a0c3dc983c771e477eb3edd1ee6b872480faf39d Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744428424 -0700	commit: Add login and logout functionalities
+a0c3dc983c771e477eb3edd1ee6b872480faf39d a7baa0df523aa5bd61092aa8f388c2282587e5e8 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744502827 -0700	commit: Fix creating model objects functions
+a7baa0df523aa5bd61092aa8f388c2282587e5e8 87de0563f1464b6d7c9766cf3a52f805bbdc6870 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744523727 -0700	commit: Add Movies component into Home page and fix Login and Logout functionalities
+87de0563f1464b6d7c9766cf3a52f805bbdc6870 adcb1c16cbc7039f7744b3db812b0f51d252e830 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744691676 -0700	commit: Current Status
+adcb1c16cbc7039f7744b3db812b0f51d252e830 948e1ccf678235850e707f74ef59823310590563 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1744774816 -0700	commit: Add Users component
+948e1ccf678235850e707f74ef59823310590563 98659eef22e767402b2a3d8a1a24b5b407a4352c Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745039869 -0700	commit: Add Profile page and modify Navbar to adjust
+98659eef22e767402b2a3d8a1a24b5b407a4352c 2f09ce47513079e49bb6c49fc1114c674467526a Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745083105 -0700	commit: Add decoration on Movie.js and UserProfile.js files
+2f09ce47513079e49bb6c49fc1114c674467526a c7a144dc840d184f3aa5feda52f9a2147a01f917 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745085002 -0700	commit: Add number and time selection onto Movie component
+c7a144dc840d184f3aa5feda52f9a2147a01f917 c1bf6b6193cf6e388cb430adc8d104565b3c2466 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745130218 -0700	commit: Work on Movie card on User's Profile
+c1bf6b6193cf6e388cb430adc8d104565b3c2466 96d3a27e97b1e53ac963b21a6c05aba510670dd7 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745210460 -0700	commit: Modify Movie component and its functionalities
+96d3a27e97b1e53ac963b21a6c05aba510670dd7 c0da4f1d19915d9fb7b1803204883e59fc39a0e8 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745214611 -0700	commit: Modify Ticket component
+c0da4f1d19915d9fb7b1803204883e59fc39a0e8 f63c6824670e5936b35b68acf491cb8850a10e37 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745277558 -0700	commit: Modify Ticket card and its functionalities
+f63c6824670e5936b35b68acf491cb8850a10e37 09f267e951e6cd6bf8c77bbbe601b32b100520cd Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745293416 -0700	commit: Add Create a New Movie function
+09f267e951e6cd6bf8c77bbbe601b32b100520cd fc0e91355fb75e854e60fde01df109b87226f515 Enkhbat Munkhbold <emunkhbold10@gmail.com> 1745472562 -0700	commit: Add edit functionality to Ticket component
