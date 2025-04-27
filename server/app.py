@@ -84,6 +84,24 @@ class TicketById(Resource):
         db.session.commit()
         return {}, 204
      
+     def patch(self, ticket_id):
+        data = request.get_json()
+        ticket = Ticket.query.filter_by(id=ticket_id).first()
+
+        if not ticket:
+            return {'error': 'Ticket not found'}, 404
+
+        allowed_attributes = ['ticket_number', 'time']
+        for attr in allowed_attributes:
+            if hasattr(ticket, attr):
+                setattr(ticket, attr, data[attr])  
+
+        ticket.total_price = ticket.movie.price * ticket.ticket_number
+        
+        db.session.add(ticket)
+        db.session.commit()
+        return make_response(jsonify(ticket.to_dict()), 200)
+     
 api.add_resource(TicketById, '/tickets/<int:ticket_id>')
 
 class ClearSession(Resource):

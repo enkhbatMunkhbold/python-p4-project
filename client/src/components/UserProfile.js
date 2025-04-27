@@ -13,11 +13,12 @@ const UserProfile = ({ user, setUser }) => {
     }));
   }
 
-  function handleEditTicket(ticketId) {
+  function handleEditTicket(editedTicket) {
+    console.log("Edited ticket:", editedTicket);
     setUser(prevUser => ({
       ...prevUser,
       tickets: prevUser.tickets.map(ticket => 
-        ticket.id === ticketId ? { ...ticket, isEditing: true } : ticket
+        ticket.id === editedTicket.id ? { ...ticket, editedTicket } : ticket
       ),
     }));
   }
