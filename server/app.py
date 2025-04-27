@@ -127,10 +127,9 @@ class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
         if user_id:
-            user = User.query.filter(User.id == user_id).first()
+            user = User.query.get(user_id)
             if user:
-                return make_response( jsonify(user.to_dict()), 200 ) 
-        
+                return make_response( jsonify(user.to_dict()), 200 )         
         return {}, 204
     
 api.add_resource(CheckSession, '/check_session')

@@ -33,7 +33,7 @@ function App() {
         r.json().then(movies => setMovies(movies));
       } else {
         console.error("Error fetching movies:", r.statusText);
-        return []
+        setMovies([]);
       }
     })
     .catch(error => {
@@ -74,7 +74,16 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignUp setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/" element={<Home user={user} movies={movies} />} />
+            <Route path="/" 
+              element={
+                <Home 
+                  user={user} 
+                  setUser={setUser} 
+                  movies={movies} 
+                  setMovies={setMovies}
+                  setTickets={setTickets} 
+                />} 
+              /> 
           </Routes>
         )}
       </main>
