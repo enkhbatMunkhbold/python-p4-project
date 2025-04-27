@@ -18,7 +18,7 @@ const UserProfile = ({ user, setUser }) => {
     setUser(prevUser => ({
       ...prevUser,
       tickets: prevUser.tickets.map(ticket => 
-        ticket.id === editedTicket.id ? { ...ticket, editedTicket } : ticket
+        ticket.id === editedTicket.id ? editedTicket : ticket
       ),
     }));
   }
