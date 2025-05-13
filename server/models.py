@@ -12,17 +12,9 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
-    tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
-    movies = association_proxy('tickets', 'movie')
+    movies = db.relationship('Movie', secondary='tickets', viewonly=True)
 
     serialize_rules = ('-tickets.user', '-_password_hash')
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'tickets': [ticket.to_dict() for ticket in self.tickets]
-        }
 
     @property
     def password_hash(self):
@@ -40,6 +32,8 @@ class User(db.Model, SerializerMixin):
     def validate_username(self, _, username):
         if not username:
             raise ValueError("Username cannot be empty")
+        if not isinstance(username, str):
+            raise ValueError("Username must be a string")
         if len(username) < 3:
             raise ValueError("Username must be at least 3 characters long")
         return username
@@ -53,10 +47,9 @@ class Movie(db.Model, SerializerMixin):
     genre = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
 
-    tickets = db.relationship('Ticket', back_populates='movie', cascade='all, delete-orphan')
-    users = association_proxy('tickets', 'user')
+    tickets = db.relationship('Ticket', backref='movie', cascade='all, delete-orphan', lazy=True)
 
-    serialize_rules = ('-users',)
+    serialize_rules = ('-users', '-tickets.movie')
 
     @validates('title', 'genre')
     def validate_non_empty_string(self, key, value):
@@ -68,10 +61,15 @@ class Movie(db.Model, SerializerMixin):
     
     @validates('price')
     def validate_price(self, _, price):
+        if not isinstance(price, (int, float)):
+            raise ValueError("Price must be a number")
         if price <= 0:
             raise ValueError("Price must be greater than 0")
         return price
   
+    def __repr__(self):
+        return f"<Movie {self.title}, {self.genre}, {self.price}>"
+    
 
 class Ticket(db.Model, SerializerMixin):
     __tablename__ = 'tickets'
@@ -84,9 +82,6 @@ class Ticket(db.Model, SerializerMixin):
     time = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
-
-    user = db.relationship('User', back_populates='tickets')
-    movie = db.relationship('Movie', back_populates='tickets')
 
     serialize_rules = ('-user.tickets', '-movie.tickets')
 
