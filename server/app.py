@@ -11,31 +11,23 @@ from models import User, Movie, Ticket
 def index():
     return '<h1>Project Server</h1>'
 
-class Users(Resource):
-    def get(self):
-        users = [user.to_dict() for user in User.query.all()]
-        return users, 200
-
-api.add_resource(Users, '/users')
-
-
 class Movies(Resource):
     def get(self):
-        movies = [movie.to_dict() for movie in Movie.query.all()]
+        movies = [movie.to_dict(rules=['-tickets']) for movie in Movie.query.all()]
         return make_response(jsonify(movies), 200)
     
-    def post(self):
-        data = request.get_json()
-        new_movie = Movie(
-            title=data['title'],
-            genre=data['genre'],
-            price=data['price']
-        )
-        db.session.add(new_movie)
-        db.session.commit()
-        return make_response(jsonify(new_movie.to_dict()), 201)
-    
 api.add_resource(Movies, '/movies')
+
+class MovieById(Resource):    
+    def delete(self, movie_id):
+        movie = Movie.query.get(movie_id)
+        if not movie:
+            return {'error': 'Movie not found'}, 404
+        db.session.delete(movie)
+        db.session.commit()
+        return {}, 204
+    
+api.add_resource(MovieById, '/movies/<int:movie_id>')
 
 
 class Tickets(Resource):
@@ -129,6 +121,8 @@ class CheckSession(Resource):
         if user_id:
             user = User.query.get(user_id)
             if user:
+                for movie in user.movies:
+                    movie.tickets = [ticket for ticket in movie.tickets if ticket.user_id == user.id]
                 return make_response( jsonify(user.to_dict()), 200 )         
         return {}, 204
     
