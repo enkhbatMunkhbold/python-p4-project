@@ -21,7 +21,7 @@ header {
   border-bottom: 1px solid #ccc;
 }
 
-header a,
+header a, button,
 header button, .btn {
   font-size: 1rem;
   display: inline-block;

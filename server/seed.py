@@ -33,31 +33,19 @@ def create_movies():
 
 def create_tickets():
     tickets = []
-    # users = User.query.all()
     test_user = User.query.first()
     movies = Movie.query.all()
 
     for _ in range(10):
+        movie = rc(movies)  # Randomly select a movie
         ticket = Ticket(
             ticket_number=randint(1, 5),
             time=rc(Ticket.AVAILABLE_TIMES),
-            user=test_user,
-            movie=rc(movies)
+            user_id=test_user.id,
+            movie_id=movie.id 
         )
-        ticket.total_price = ticket.ticket_number * ticket.movie.price
+        ticket.total_price = ticket.ticket_number * movie.price
         tickets.append(ticket)  
-
-        # other_users = User.query.filter(User.username!= "test_user").all()
-        # for _ in range(10):
-        #     ticket = Ticket(
-        #         ticket_number=randint(1, 5),
-        #         time=rc(Ticket.AVAILABLE_TIMES),
-        #         user=rc(other_users),
-        #         movie=rc(movies)
-        #     )
-        #     ticket.total_price = ticket.ticket_number * ticket.movie.price
-        #     tickets.append(ticket)  
-
     return tickets
 
 

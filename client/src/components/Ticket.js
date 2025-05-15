@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Formik, Form, Field } from 'formik' 
 import * as Yup from 'yup'
 import '../styling/ticket.css'
 
 
-const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
+const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {  
 
   const [isEditing, setIsEditing] = useState(false);
   const times = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
   const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
+
+  if (!ticket || !ticket.movie) {
+    console.error("Invalid ticket data:", ticket);
+    return null;
+  }
 
   const validationSchema = Yup.object().shape({
     ticketNumber: Yup.number()
@@ -21,13 +26,16 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
 
   const handleDelete = async () => {
     try {
+      console.log("Attempting to delete ticket:", ticket);
+      
       const response = await fetch(`/tickets/${ticket.id}`, {
         method: 'DELETE',
       });
       
       if (response.ok) {
         onDeleteTicket(ticket.id);
-        window.location.reload();
+      } else {
+        console.error('Failed to delete ticket:', await response.text());
       }
     } catch (error) {
       console.error('Error deleting ticket:', error);

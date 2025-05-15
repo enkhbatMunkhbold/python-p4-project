@@ -1,38 +1,32 @@
-import React from 'react'
-import Ticket from './Ticket'
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
+import MovieCard from './MovieCard';
 
+const UserProfile = () => {
 
-const UserProfile = ({ user, setUser }) => {
+  const { user } = useContext(UserContext);
   if (!user) return <div>Loading...</div>;
 
+  console.log("User from UserProfile:", user);
 
-  function handleDeleteTicket(ticketId) {
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
-    }));
-  }
 
-  function handleEditTicket(editedTicket) {
-    console.log("Edited ticket:", editedTicket);
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.map(ticket => 
-        ticket.id === editedTicket.id ? editedTicket : ticket
-      ),
-    }));
+  function renderMovies(list) {
+    return list.map((movie) => {
+      
+      return (
+        <MovieCard key={movie.id} movie={movie} />
+      )
+    })
   }
 
   return (
     <div>
       <h2>Welcome, {user.username}</h2>
       <div className="user-profile">
-        <h3>Your Tickets:</h3>
-        {user.tickets && user.tickets.length > 0 ? (
+        <h3>Your Movies:</h3>
+        {user.movies && user.movies.length > 0 ? (
           <ul>
-            {user.tickets.map(ticket => (
-              <Ticket key={ticket.id} ticket={ticket} onEditTicket={handleEditTicket} onDeleteTicket={handleDeleteTicket}/>
-            ))}
+            {renderMovies(user.movies)}
           </ul>
         ) : (
           <p>No tickets purchased yet.</p>

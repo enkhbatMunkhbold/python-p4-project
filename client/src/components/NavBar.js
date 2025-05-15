@@ -1,35 +1,47 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from '../context/UserContext';
 
-function NavBar({ user, onLogout }) {
-
+function NavBar() {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
-        onLogout();
+        setUser(null);
         navigate("/");
       }
     });
   }
 
+  const handleNavigation = () => {
+    if (window.location.pathname === "/login") {
+      const loginComponent = document.querySelector(".login-form");
+      if (loginComponent) {
+        const errorElement = loginComponent.querySelector(".error-message");
+        if (errorElement) {
+          errorElement.style.display = "none";
+        }
+      }
+    }
+  };
+
   return (
     <header>
       <div>
-        <Link to="/">Home</Link>
+        {user && <Link to="/" onClick={handleNavigation}>Home</Link>}
       </div>
-      <div>
+      <div className="nav-links">
         {user ? (
           <>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile" onClick={handleNavigation}>Profile</Link>
             <button onClick={handleLogoutClick}>Logout</button>
           </>
         ) : (
           <>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
+            <Link to="/signup" onClick={handleNavigation}>Signup</Link>
+            <Link to="/login" onClick={handleNavigation}>Login</Link>
           </>
         )}
       </div>
