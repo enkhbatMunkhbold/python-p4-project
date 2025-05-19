@@ -121,8 +121,8 @@ class CheckSession(Resource):
         if user_id:
             user = db.session.get(User, user_id)
             if user:
-                for movie in user.movies:
-                    movie.tickets = [ticket for ticket in movie.tickets if ticket.user_id == user.id]
+                # for movie in user.movies:
+                #     movie.tickets = [ticket for ticket in movie.tickets if ticket.user_id == user.id]
                 return make_response( jsonify(user.to_dict()), 200 )         
         return {}, 204
     

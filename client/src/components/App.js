@@ -1,34 +1,42 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
 import UserProfile from "./UserProfile";
-import UserContext from "../context/UserContext";
 import Tickets from "./Tickets";
+import UserContext from '../context/UserContext';
 
 function App() {
-
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("/check_session")
-    .then(r => {
-      if(r.ok) {
-        r.json().then(user => setUser(user));
-      } else if (r.status === 204) {
-        setUser(null)
-      } else {
+      .then(r => {
+        if (r.ok) {
+          return r.json().then(user => {
+            setUser(user);
+            setIsLoading(false);
+          });
+        } else if (r.status === 204) {
+          setUser(null);
+          setIsLoading(false);
+        } else {
           throw new Error(`HTTP error! Status: ${r.status}`);
-      }
-    }).catch(error => {
-      console.error("Error checking session:", error)
-      setUser(null)
-    });
-  }, [setUser]);
+        }
+      })
+      .catch(error => {
+        console.error("Error checking session:", error);
+        setUser(null);
+        setIsLoading(false);
+      });
+  }, []);
 
-  console.log("User from App:", user);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -37,16 +45,20 @@ function App() {
         <main>
           {user ? (
             <Routes>
-              <Route path="/" element={<Home />}/> 
+              <Route path="/" element={<Home />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/tickets" element={<Tickets />} />
+              <Route path="/login" element={<Navigate to="/" replace />} />
+              <Route path="/signup" element={<Navigate to="/" replace />} />
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
           ) : (
             <Routes>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Home />}/>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Navigate to="/login" replace />} />
+              <Route path="/tickets" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
           )}

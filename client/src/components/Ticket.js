@@ -10,11 +10,6 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
   const times = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
   const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
 
-  if (!ticket || !ticket.movie) {
-    console.error("Invalid ticket data:", ticket);
-    return null;
-  }
-
   const validationSchema = Yup.object().shape({
     ticketNumber: Yup.number()
       .required('Please select a number of tickets')
@@ -26,8 +21,6 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
 
   const handleDelete = async () => {
     try {
-      console.log("Attempting to delete ticket:", ticket);
-      
       const response = await fetch(`/tickets/${ticket.id}`, {
         method: 'DELETE',
       });

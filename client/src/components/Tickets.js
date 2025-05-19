@@ -1,69 +1,74 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import UserContext from '../context/UserContext';
 import Ticket from './Ticket'
 
 const Tickets = () => {
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
-  const { movie } = location.state || {};
   const navigate = useNavigate();
-
-  if (!movie) {
-    console.error("No movie data found in location state");
-    navigate('/');
-    return null;
-  }
-
-   if (!movie.tickets) {
-    console.error("No tickets found for movie:", movie);
-    navigate('/profile');
-    return null;
-  }
+  const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
   function handleDeleteTicket(ticketId) {
-    // const updateUser = user.movies[movie.id].tickets.filter(t => t.id !== ticketId)
-    const updatedMovie = {
-      ...movie,
-      tickets: movie.tickets.filter(t => t.id !== ticketId)
-    }
-    setUser(prevUser => {
+    setCurrentMovie(prevMovie => {
+      if (!prevMovie) return prevMovie;
+      return {
+        ...prevMovie,
+        tickets: prevMovie.tickets.filter(t => t.id !== ticketId)
+      };
+    });
+    setUser(prevUser => {    
       const updatedMovies = {
         ...prevUser.movies,
-        [movie.id]: updatedMovie
+        [currentMovie.id]: {
+          ...prevUser.movies[currentMovie.id],
+          tickets: prevUser.movies[currentMovie.id].tickets.filter(t => t.id !== ticketId)
+        }
       };
+
+      if (updatedMovies[currentMovie.id].tickets.length === 0) {
+        delete updatedMovies[currentMovie.id];
+      }
+
       return {
         ...prevUser,
         movies: updatedMovies
       };
     });
-    movie.tickets = movie.tickets.filter(t => t.id !== ticketId);
-  }
+    navigate('/profile');
+  } 
 
   function handleEditTicket(editedTicket) {
-    const updatedUser = user.movies.map(m => m.tickets.map(t => t.id !== editedTicket.id ? t : editedTicket))   
-    setUser(updatedUser);    
+    if (!currentMovie) return;
+
+    const updatedMovie = {
+      ...currentMovie,
+      tickets: currentMovie.tickets.map(t => t.id === editedTicket.id ? editedTicket : t)
+    };
+
+    setCurrentMovie(updatedMovie);
+    
+    setUser(prevUser => ({
+      ...prevUser,
+      movies: {
+        ...prevUser.movies,
+        [currentMovie.id]: updatedMovie
+      }
+    }));
   }
 
   function renderTickets() { 
-    if (!movie.tickets || movie.tickets.length === 0) {
-      navigate('/profile'); 
-      return null;
-    }  
-    
-    console.log("Movie tickets:", movie.tickets);
+    const userTickets = currentMovie.tickets.filter(t => t.user_id === user.id);
 
-    return movie.tickets.map(ticket => {
+    return userTickets.map(ticket => {
       const ticketWithMovie = {
         ...ticket,
         movie: {
-          id: movie.id,
-          title: movie.title,
-          price: movie.price
+          id: currentMovie.id,
+          title: currentMovie.title,
+          price: currentMovie.price
         }
-      };
-
-      console.log("Ticket with movie data:", ticketWithMovie);
+      };      
       
       return (
         <Ticket 
@@ -75,12 +80,11 @@ const Tickets = () => {
       );
     });
   }
-  console.log("Movie from tickets:", movie);
 
   return (
     <div className="tickets-container">
-      <h3>Your Tickets for {movie.title}:</h3>
-      {movie.tickets && movie.tickets.length > 0 ? (
+      <h3>Your Tickets for {currentMovie.title}:</h3>
+      {currentMovie.tickets && currentMovie.tickets.length > 0 ? (
         <ul className="tickets-list">
           {renderTickets()}
         </ul>
@@ -88,7 +92,7 @@ const Tickets = () => {
         <p>No tickets purchased yet.</p>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Tickets
+export default Tickets;

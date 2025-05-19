@@ -50,31 +50,23 @@ const Movie = ({ movie }) => {
               ticket: newTicket
             }
           }) 
-          if(!user.movies[movie.id]) {
-            setUser(prevUser => ({
-              ...prevUser,
-              movies: {
-                ...prevUser.movies,
-                [movie.id]: {
-                  ...movie,
-                  tickets: [newTicket]
-                }
+          
+          setUser(prevUser => {
+            const updatedMovies = {
+              ...prevUser.movies,
+              [movie.id]: {
+                ...movie,
+                tickets: prevUser.movies?.[movie.id]?.tickets 
+                  ? [...prevUser.movies[movie.id].tickets, newTicket]
+                  : [newTicket]
               }
-            }))            
-          } else {
-            setUser(prevUser => ({
+            };
+            
+            return {
               ...prevUser,
-              movies: {
-                ...prevUser.movies,
-                [movie.id]: {
-                  ...prevUser.movies[movie.id],
-                  tickets: [...prevUser.movies[movie.id].tickets, newTicket]
-                }
-              }
-            }))
-          }
-          const updatedUser = user.movies.map(m => m.id === movie.id ? m.tickets.push(newTicket) : m)
-          setUser(updatedUser)
+              movies: updatedMovies
+            };
+          });
         } else {
           const errorData = await response.json()
           formik.setErrors({ submit: errorData.error || "Failed to purchase ticket" })
