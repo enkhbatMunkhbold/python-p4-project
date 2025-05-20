@@ -28,14 +28,14 @@ const Tickets = () => {
 
       if (updatedMovies[currentMovie.id].tickets.length === 0) {
         delete updatedMovies[currentMovie.id];
+        navigate('/profile');
       }
 
       return {
         ...prevUser,
         movies: updatedMovies
       };
-    });
-    navigate('/profile');
+    });    
   } 
 
   function handleEditTicket(editedTicket) {
