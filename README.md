@@ -1,45 +1,84 @@
-# Phase 4 Movie Tickets
+# Phase 4 Project - Movie Tickets
 
-## Description
+## Description 
 
-**Movie Ticket** app helps users to buy the movie tickets of their chosen movie and selecting time and number of tickets. To do so a user should login or signup first and the tickets that bought will be saved in the logged user's profile. If user wants to buy more tickets, then he/she can click on **Home** button and when gets in Home page the user can buy ticket or tickets of a movie he/she wants to buy. 
+The **Movie Ticket** app allows users to purchase movie tickets by selecting their desired movie, showtime, and number of tickets. To use the app, users must first sign up or log in. Purchased tickets are saved to the logged-in user's profile. If a user wishes to buy more tickets, they can simply click the **Home** button to return to the homepage, where they can select and purchase additional movie tickets.
 
 ## Table Of Contents 
 
 - [Work Environment](#work-environment)
 
-- [Home](#home)
+- [Home (Unsigned)](#home-unsigned)
 
-- [Restaurants List](#restaurants-list)
+- [Movie Card](#movie-card)
 
-- [Create a New Restaurant](#create-a-new-restaurant)
+- [Create Movie](#create-movie)
 
-- [Demo](#demo)
+- [Signup](#signup)
+
+- [Login](#login)
+
+- [Profile](#profile)
+
+- [Ticket Card](#ticket-card)
   
 
 ## Work Environment  
 
-The **Movie Ticket** app is built in React, which is a JavaScript library, at the front-end and Flask (Python) on the back-end. 
-The client side of the application works using local url addresses:
+The **Movie Ticket** app is built in **React** (a JavaScript library) on the front-end and **Flask** (Python) on the back-end. 
+The back-end runs on port 5555, and front-end runs on port 3000. Therefore, the app's pages are accessible at the following local URLs:
 - Home: - <http://localhost:3000/>  
-- Restaurants List: - <http://localhost:3000/restaurants>
-- Create New Restaurant: -<http://localhost:3000/restaurants/new>
-- Selected Restaurant: -<http://localhost:3000/restaurants/:id> 
+- Signupt: - <http://localhost:3000/signup>
+- Login: -<http://localhost:3000/login>
+- User Profile: -<http://localhost:3000/profile> 
 
-## Home 
+## Home
 
-When a user goes into **Restaurant Finder** app it opens up Home page of the app first. A user can see the search input field with button and the default restaurant card below the search field. When user inputs the word into the search field and clicks the **search** button, the list of the restaurants appears in the place, where the default placeholder card used to show up. User can go to details page in every individual restaurant by clicking **Learn more...** button or even *favorite* them.  
+When a user opens the **Movie Ticket** app, it first loads the Home page. 
+On the Home page, users can view a list of available movies. 
+To purchase movie tickets, a user must login. If the user does not have an account, they will need to signup first.
 
-## Restaurants List  
+If a user already has an account, then the logged-in **Home** page will display **Movie Cards**, through which the user can purchase tickets. 
 
-In this page a user can see the whole list of the local restaurants, by scrolling the list up and down. If user wants to find out more details about a restaurant, then he/she can click on **Learn more...** button on the bottom left side of the each restaurant card, which takes a user into the details page of every individual restaurant card.
+## Movie Card
 
-## Create a New Restaurant
+Each **Movie Card** displays the movie title in the top-left corner. 
+There are also two dropdown menus: one for selecting the **number of tickets** and another for choosing the **showtime**.
+The card shows the **ticket price** and the t**otal price**, which initially is $0.00. 
+When the user selects the number of tickets, the **Total Price** updates automatically. 
+At the bottom of the Movie Card, there is a **Buy Ticket** button. When the user clicks this button, they are redirected to the **Profile** page.
 
-If user wants to add a **New Restaurant** into the list, he/she can to to the Create New Restaurant page, by clicking on **Create** word on the top right side of the application. Then, user goes to the page, where he/she can fill out the form for all necessary information to create a restaurant card.  
+## Create Movie
 
-## Demo  
+At the bottom of the **Home** page, there is a **Create a New Movie** section. 
+If a user wants to add a new movie to the list, they can fill out the form and click the **Create Movie** button. 
+Once the button is clicked, the new movie will appear in the movie list.
 
-Here is a GIF of the app to demonstrate how **Restaurant Finder** app works.
+## Signup  
 
-![project-demo](https://github.com/enkhbatMunkhbold/phase-2-project/assets/33409864/cc401550-b840-45e7-ada5-1d961d18ffe6)
+When a user clicks on **Signup** button signup page will open up. 
+The user can fill out the form by entering **Username**, **Password** and **Password Confirmation**. 
+Once the form is submitted, the app saves the entered credentials, and the user is redirected directly to the **Profile** page. 
+
+## Login
+
+If a user wants to log in, they can click the **Login** button located at the top-right corner of the page.
+A login form will appear in a window.
+The user must enter their **Username** and **Password**, then click the **Login** button at the bottom of the form.
+If the login is successful, the user will be redirected to their **Profile** page.
+If the login fails, an error message ***"Username or password is incorrect"*** will be displayed.
+
+## Profile
+
+After signing up or logging in, the user can view their purchased tickets on the **Profile** page.
+At the top-left corner, a welcome message appears: **"Welcome, (Username)!"**
+Below the welcome message, there is a title that says **"Your Tickets:"** followed by the list of purchased tickets.
+
+If the user wants to purchase more tickets, they can return to the **Home** page and select additional movies from the **Movie List**.
+
+## Ticket card
+
+Each ticket card displays information such as the **number of tickets**, **showtime**, **ticket price**, and **total price**.
+Users can modify their tickets by adjusting the number of tickets or selecting a different showtime from the dropdown menu.
+When the number of tickets is changed, the **Total** updates automatically.
+If a user no longer wishes to watch a movie, they can delete the ticket by clicking the **Delete** button on the corresponding ticket card.
