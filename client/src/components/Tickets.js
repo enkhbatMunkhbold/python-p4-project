@@ -4,7 +4,7 @@ import UserContext from '../context/UserContext';
 import Ticket from './Ticket'
 
 const Tickets = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
@@ -58,9 +58,7 @@ const Tickets = () => {
   }
 
   function renderTickets() { 
-    const userTickets = currentMovie.tickets.filter(t => t.user_id === user.id);
-
-    return userTickets.map(ticket => {
+    return currentMovie.tickets.map(ticket => {
       const ticketWithMovie = {
         ...ticket,
         movie: {
