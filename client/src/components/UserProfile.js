@@ -7,7 +7,7 @@ const UserProfile = () => {
   const { user } = useContext(UserContext);
   if (!user) return <div>Loading...</div>;
 
-  function renderMovies() {
+  const renderMovies = () => {
     if (!user.movies) return null;    
    
     const moviesArray = Object.values(user.movies);

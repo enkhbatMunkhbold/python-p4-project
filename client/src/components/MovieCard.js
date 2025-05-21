@@ -5,7 +5,7 @@ const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
   if (!movie) return null;
 
-  function handleMovieClick() {
+  const handleMovieClick = () => {
     navigate('/tickets', { state: { movie } });
   }
 

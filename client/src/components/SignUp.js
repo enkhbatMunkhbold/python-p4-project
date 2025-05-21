@@ -9,7 +9,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  function handleSignup(e) {
+  const handleSignup = (e) => {
     e.preventDefault();
     fetch("/signup", {
       method: "POST",

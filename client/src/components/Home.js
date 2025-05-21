@@ -23,7 +23,7 @@ function Home() {
     });
   }, []);
 
-  function renderMovies(list) {
+  const renderMovies = (list) => {
     return list.map((movie) => {
       return (
         <li key={movie.id}>

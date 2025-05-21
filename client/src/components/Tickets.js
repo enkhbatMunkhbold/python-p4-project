@@ -9,7 +9,7 @@ const Tickets = () => {
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
-  function handleDeleteTicket(ticketId) {
+  const handleDeleteTicket = (ticketId) => {
     setCurrentMovie(prevMovie => {
       if (!prevMovie) return prevMovie;
       return {
@@ -38,7 +38,7 @@ const Tickets = () => {
     });    
   } 
 
-  function handleEditTicket(editedTicket) {
+  const handleEditTicket = (editedTicket) => {
     if (!currentMovie) return;
 
     const updatedMovie = {
@@ -57,7 +57,7 @@ const Tickets = () => {
     }));
   }
 
-  function renderTickets() { 
+  const renderTickets = () => { 
     return currentMovie.tickets.map(ticket => {
       const ticketWithMovie = {
         ...ticket,

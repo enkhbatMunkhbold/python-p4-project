@@ -6,7 +6,7 @@ function NavBar() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
-  function handleLogoutClick() {
+  const handleLogoutClick = () => {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
         setUser(null);
