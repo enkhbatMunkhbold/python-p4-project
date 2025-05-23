@@ -11,15 +11,9 @@ const UserProfile = () => {
     if (!user.movies) return null;    
    
     const moviesArray = Object.values(user.movies);
+    console.log("moviesArray from UserProfile:", moviesArray)
     
-    return moviesArray.map((movie) => {      
-      return (
-        <MovieCard 
-          key={movie.id} 
-          movie={movie} 
-        />
-      );
-    });
+    return moviesArray.map(movie => <MovieCard key={movie.id} movie={movie} />);    
   }
 
   return (

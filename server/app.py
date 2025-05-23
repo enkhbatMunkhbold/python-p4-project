@@ -31,9 +31,6 @@ api.add_resource(MovieById, '/movies/<int:movie_id>')
 
 
 class Tickets(Resource):
-    # def get(self):
-    #     tickets = [ticket.to_dict() for ticket in Ticket.query.all()]
-    #     return tickets, 200
     
     def post(self):
         try:

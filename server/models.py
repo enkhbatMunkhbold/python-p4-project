@@ -9,7 +9,7 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
     movies = db.relationship('Movie', secondary='tickets', viewonly=True)
@@ -43,8 +43,8 @@ class Movie(db.Model, SerializerMixin):
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), nullable=False)
-    genre = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String, nullable=False)
+    genre = db.Column(db.String, nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
 
     tickets = db.relationship('Ticket', backref='movie', cascade='all, delete-orphan', lazy=True)
@@ -79,7 +79,7 @@ class Ticket(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     ticket_number = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float(precision=2), nullable=False)
-    time = db.Column(db.String(20), nullable=False)
+    time = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
 

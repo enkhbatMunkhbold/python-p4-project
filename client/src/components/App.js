@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import Home from "./Home";
@@ -48,8 +48,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/tickets" element={<Tickets />} />
-              <Route path="/login" element={<Navigate to="/" replace />} />
-              <Route path="/signup" element={<Navigate to="/" replace />} />
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
           ) : (
@@ -57,8 +55,6 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Navigate to="/login" replace />} />
-              <Route path="/tickets" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
           )}
