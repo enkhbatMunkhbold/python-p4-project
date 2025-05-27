@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+
 function SignUp() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
@@ -26,13 +27,14 @@ function SignUp() {
         .oneOf([Yup.ref('password')], "Passwords must match")
     }),
     onSubmit: (values) => {
+      const capitalizedUsername = values.username.charAt(0).toUpperCase() + values.username.slice(1).toLowerCase()
       fetch("/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: values.username,
+          username: capitalizedUsername,
           password: values.password,
           passwordConfirmation: values.passwordConfirmation
         })

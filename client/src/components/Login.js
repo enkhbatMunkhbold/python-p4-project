@@ -18,13 +18,14 @@ function Login() {
       password: Yup.string().required("Password is required")
     }),
     onSubmit: (values) => {
+      const capitalizedUsername = values.username.charAt(0).toUpperCase() + values.username.slice(1).toLowerCase()
       fetch("/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: values.username,
+          username:capitalizedUsername,
           password: values.password
         })
       })
