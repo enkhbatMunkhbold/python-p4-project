@@ -35,6 +35,7 @@ function NavBar() {
       <div className="nav-links">
         {user ? (
           <>
+            <Link to="/new_movie" onClick={handleNavigation}>Add Movie</Link>
             <Link to="/profile" onClick={handleNavigation}>Profile</Link>
             <button onClick={handleLogoutClick}>Logout</button>
           </>

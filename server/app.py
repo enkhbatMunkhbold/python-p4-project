@@ -15,6 +15,18 @@ class Movies(Resource):
         movies = [movie.to_dict(rules=['-tickets']) for movie in Movie.query.all()]
         return make_response(jsonify(movies), 200)
     
+    def post(self):
+        data = request.get_json()
+        new_movie = Movie(
+            title = data['title'],
+            genre = data['genre'],
+            price = data['price']
+        )
+
+        db.session.add(new_movie)
+        db.session.commit()
+        return make_response(jsonify(new_movie.to_dict()), 201)
+    
 api.add_resource(Movies, '/movies')
 
 class MovieById(Resource):    

@@ -7,6 +7,7 @@ import Login from "./Login";
 import UserProfile from "./UserProfile";
 import Tickets from "./Tickets";
 import UserContext from '../context/UserContext';
+import NewMovie from "./NewMovie";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,6 +49,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/tickets" element={<Tickets />} />
+              <Route path="/new_movie" element={<NewMovie />} />
               <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
           ) : (
