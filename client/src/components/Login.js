@@ -1,76 +1,69 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import { useFormik } from "formik";
+import * as Yup from "yup"
 
 function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [invalid, setInvalid] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      setError(null);
-      setInvalid(false);
-    }
-  }, []);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/login", {
+  const formik = useFormik({
+    initialValues: {
+      username: "", 
+      password: ""
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
+      password: Yup.string().required("Password is required")
+    }),
+    onSubmit: (values) => {
+      fetch("/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        setUser(user);  
-        setInvalid(false);
-        navigate("/profile"); 
-      } else {
-        setInvalid(true);
-        const errorData = await response.json();
-        setError('Username or password is incorrect');
-        console.error("Login error:", errorData);
-        setUsername("");
-        setPassword("");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
+          username: values.username,
+          password: values.password
+        })
+      })
+      .then(res => res.json())
+      .then(user => {
+        setUser(user)
+        navigate("/profile")
+      })
     }
-  };
+})
 
   return (
     <div className="login-form">
-      <form onSubmit={handleLogin}>
+      <form onSubmit={formik.handleSubmit}>
         <h1>Login</h1>
         <label htmlFor="username">Username</label>
         <input
           type="text"
           id="username"
           autoComplete="off"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={formik.values.username}
+          onChange={formik.handleChange}
         />
+        {formik.touched.username && formik.errors.username && (
+          <p className="error-message" style={{ color: "red" }}>{formik.errors.username}</p>
+        )}
         <label htmlFor="password">Password</label>
         <input
           type="password"
           id="password"
           autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formik.values.password}
+          onChange={formik.handleChange}
         />
+        {formik.touched.password && formik.errors.password && (
+          <p className="error-message" style={{ color: "red" }}>{formik.errors.password}</p>
+        )}
         <button type="submit">Login</button>
-      </form>
-      {invalid ? <p className="error-message" style={{ color: "red" }}>{error}</p> : null}
+      </form>      
     </div>
   );
 }

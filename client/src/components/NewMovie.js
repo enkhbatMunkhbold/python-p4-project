@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 const NewMovie = () => {
   const navigate = useNavigate()
-  const [ setMovies ] = useState([])
-  const [error, setError] = useState(null)
+  const [movies, setMovies] = useState([])
 
   useEffect(() => {
     fetch("/movies")
@@ -18,13 +17,11 @@ const NewMovie = () => {
       })
       .then(movieData => {
         setMovies(movieData)
-        setError(null)
       })
       .catch(err => {
-        setError(err.message)
-        console.error("Error fetching movies:", err)
+        <p style={{ color: "red" }}>{err}</p>
       })
-  }, [setMovies])
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -47,9 +44,7 @@ const NewMovie = () => {
         .positive("Price must be positive")
         .max(100)
     }),
-    onSubmit: (values) => {
-      setError(null)
-      
+    onSubmit: (values) => {      
       fetch("/movies", {
         method: "POST",
         headers: {
@@ -72,16 +67,16 @@ const NewMovie = () => {
           navigate("/")
         })
         .catch(err => {
-          setError(err.message)
           console.error("Error adding movie:", err)
         })
     }
   })
 
+  console.log("Movies from NewMovie:", movies)
+
   return (
-    <div className="new-movie-container">
-      {error && <div className="error-message">{error}</div>}
-      <form onSubmit={formik.handleSubmit} className="new-movie-form">
+    <div>
+      <form onSubmit={formik.handleSubmit}>
         <h2>New Movie</h2>
         <hr/>
         <div className="form-group">
@@ -126,7 +121,7 @@ const NewMovie = () => {
             <p className="error-message">{formik.errors.price}</p>
           )}
         </div>
-        <button type="submit">"Add Movie"</button>
+        <button type="submit">Add Movie</button>
       </form>      
     </div>
   )

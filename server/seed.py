@@ -23,12 +23,12 @@ def create_movies():
     m2 = Movie(title='The Dark Knight', genre='Action', price=randint(5, 15))
     m3 = Movie(title='Interstellar', genre='Sci-Fi', price=randint(5, 15))
     m4 = Movie(title='The Matrix', genre='Sci-Fi', price=randint(5, 15))
-    m5 = Movie(title='The Godfather', genre='Crime', price=randint(5, 15))
-    m6 = Movie(title='Pulp Fiction', genre='Crime', price=randint(5, 15))
-    m7 = Movie(title='The Shawshank Redemption', genre='Drama', price=randint(5, 15))
-    m8 = Movie(title='Forrest Gump', genre='Drama', price=randint(5, 15))
+    # m5 = Movie(title='The Godfather', genre='Crime', price=randint(5, 15))
+    # m6 = Movie(title='Pulp Fiction', genre='Crime', price=randint(5, 15))
+    # m7 = Movie(title='The Shawshank Redemption', genre='Drama', price=randint(5, 15))
+    # m8 = Movie(title='Forrest Gump', genre='Drama', price=randint(5, 15))
 
-    movies.extend([m1, m2, m3, m4, m5, m6, m7, m8]) 
+    movies.extend([m1, m2, m3, m4]) 
     return movies
 
 def create_tickets():

@@ -8,11 +8,9 @@ const UserProfile = () => {
   if (!user) return <div>Loading...</div>;
 
   const renderMovies = () => {
-    if (!user.movies) return null;    
+    if (!user.movies) return null;  
    
-    const moviesArray = Object.values(user.movies);
-    console.log("moviesArray from UserProfile:", moviesArray)
-    
+    const moviesArray = Object.values(user.movies);    
     return moviesArray.map(movie => <MovieCard key={movie.id} movie={movie} />);    
   }
 
