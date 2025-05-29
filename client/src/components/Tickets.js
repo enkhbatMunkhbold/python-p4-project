@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import UserContext from '../context/UserContext';
 import Ticket from './Ticket'
 
@@ -9,48 +9,48 @@ const Tickets = () => {
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
-  useEffect(() => {
-    if (!currentMovie) {
-      navigate('/profile');
-    }
-  }, [currentMovie, navigate]);
-
-  if (!currentMovie || !user) {
+  if (!currentMovie) {
+    navigate("/profile");
     return null;
   }
 
   const handleDeleteTicket = (ticketId) => {
-    
     setCurrentMovie(prevMovie => {
       if (!prevMovie || !prevMovie.tickets) return prevMovie;
+      const updatedTickets = prevMovie.tickets.filter(t => t.id !== ticketId);
+      
+      if (updatedTickets.length === 0) {
+        navigate('/profile');
+        return null;
+      }
+      
       return {
         ...prevMovie,
-        tickets: prevMovie.tickets.filter(t => t.id !== ticketId)
+        tickets: updatedTickets
       };
     });
 
-    setUser(prevUser => {    
+    setUser(prevUser => {
       if (!prevUser.movies || !prevUser.movies[currentMovie.id]) return prevUser;
       
-      const updatedMovies = {
-        ...prevUser.movies,
-        [currentMovie.id]: {
-          ...prevUser.movies[currentMovie.id],
-          tickets: prevUser.movies[currentMovie.id].tickets.filter(t => t.id !== ticketId)
-        }
-      };
-
-      if (updatedMovies[currentMovie.id].tickets.length === 0) {
+      const updatedMovies = { ...prevUser.movies };
+      const movieTickets = updatedMovies[currentMovie.id].tickets.filter(t => t.id !== ticketId);
+      
+      if (movieTickets.length === 0) {
         delete updatedMovies[currentMovie.id];
-        navigate('/profile');
+      } else {
+        updatedMovies[currentMovie.id] = {
+          ...updatedMovies[currentMovie.id],
+          tickets: movieTickets
+        };
       }
 
       return {
         ...prevUser,
         movies: updatedMovies
       };
-    });    
-  } 
+    });
+  };
 
   const handleEditTicket = (editedTicket) => {
     if (!currentMovie || !currentMovie.tickets) return;
@@ -69,11 +69,17 @@ const Tickets = () => {
         [currentMovie.id]: updatedMovie
       }
     }));
-  }
+  };
 
   const renderTickets = () => { 
     if (!currentMovie?.tickets) return null;
-    const userMovieTickets = currentMovie.tickets.filter(t => t.user_id === user.id)
+    const userMovieTickets = currentMovie.tickets.filter(t => t.user_id === user.id);
+    
+    if (userMovieTickets.length === 0) {
+      navigate('/profile');
+      return null;
+    }
+    
     return userMovieTickets.map(ticket => {
       const ticketWithMovie = {
         ...ticket,
@@ -93,7 +99,7 @@ const Tickets = () => {
         />
       );
     });
-  }
+  };
 
   return (
     <div className="tickets-container">

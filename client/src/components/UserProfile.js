@@ -19,6 +19,8 @@ const UserProfile = () => {
     ));    
   }
 
+  console.log("User movies from UserProfile:", user.movies)
+
   return (
     <div>
       <h2>Welcome, {user.username}</h2>

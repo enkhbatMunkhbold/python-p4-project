@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useFormik } from "formik";
@@ -7,6 +7,7 @@ import * as Yup from "yup"
 function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+  const [error, setError] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -18,6 +19,7 @@ function Login() {
       password: Yup.string().required("Password is required")
     }),
     onSubmit: (values) => {
+      setError("");
       const capitalizedUsername = values.username.charAt(0).toUpperCase() + values.username.slice(1).toLowerCase()
       fetch("/login", {
         method: "POST",
@@ -25,22 +27,33 @@ function Login() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username:capitalizedUsername,
+          username: capitalizedUsername,
           password: values.password
         })
       })
-      .then(res => res.json())
-      .then(user => {
-        setUser(user)
-        navigate("/profile")
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(err => {
+            throw new Error(err.message || "Invalid credentials");
+          });
+        }
+        return res.json();
       })
+      .then(user => {
+        setUser(user);
+        navigate("/profile");
+      })
+      .catch(err => {
+        setError(err.message || "Invalid credentials");
+      });
     }
-})
+  });
 
   return (
     <div className="login-form">
       <form onSubmit={formik.handleSubmit}>
         <h1>Login</h1>
+        {error && <p className="error-message" style={{ color: "red" }}>{error}</p>}
         <label htmlFor="username">Username</label>
         <input
           type="text"
