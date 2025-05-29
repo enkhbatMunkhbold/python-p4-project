@@ -36,7 +36,7 @@ function App() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+  
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Router>
