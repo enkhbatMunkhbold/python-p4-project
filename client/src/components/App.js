@@ -16,16 +16,14 @@ function App() {
   useEffect(() => {
     fetch("/check_session")
       .then(r => {
-        if (r.ok) {
+        if (r.ok && r.status !== 204) {
           return r.json().then(user => {
             setUser(user);
             setIsLoading(false);
           });
-        } else if (r.status === 204) {
+        } else {
           setUser(null);
           setIsLoading(false);
-        } else {
-          throw new Error(`HTTP error! Status: ${r.status}`);
         }
       })
       .catch(error => {
@@ -33,7 +31,7 @@ function App() {
         setUser(null);
         setIsLoading(false);
       });
-  }, []);
+  }, [setUser]);
 
   if (isLoading) {
     return <div>Loading...</div>;

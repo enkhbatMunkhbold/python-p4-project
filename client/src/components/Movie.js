@@ -43,13 +43,7 @@ const Movie = ({ movie }) => {
           }),
         })
         if (response.ok) {
-          const newTicket = await response.json()
-          navigate('/profile', {
-            state: { 
-              movieId: movie.id,
-              ticket: newTicket
-            }
-          }) 
+          const newTicket = await response.json()         
           
           setUser(prevUser => {
             const updatedMovies = {
@@ -61,6 +55,13 @@ const Movie = ({ movie }) => {
                   : [newTicket]
               }
             };
+
+            navigate('/profile', {
+            state: { 
+              movieId: movie.id,
+              ticket: newTicket
+            }
+          }) 
             
             return {
               ...prevUser,

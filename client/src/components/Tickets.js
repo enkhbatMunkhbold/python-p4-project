@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import UserContext from '../context/UserContext';
 import Ticket from './Ticket'
 
@@ -9,15 +9,29 @@ const Tickets = () => {
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
+  useEffect(() => {
+    if (!currentMovie) {
+      navigate('/profile');
+    }
+  }, [currentMovie, navigate]);
+
+  if (!currentMovie || !user) {
+    return null;
+  }
+
   const handleDeleteTicket = (ticketId) => {
+    
     setCurrentMovie(prevMovie => {
-      if (!prevMovie) return prevMovie;
+      if (!prevMovie || !prevMovie.tickets) return prevMovie;
       return {
         ...prevMovie,
         tickets: prevMovie.tickets.filter(t => t.id !== ticketId)
       };
     });
+
     setUser(prevUser => {    
+      if (!prevUser.movies || !prevUser.movies[currentMovie.id]) return prevUser;
+      
       const updatedMovies = {
         ...prevUser.movies,
         [currentMovie.id]: {
@@ -39,7 +53,7 @@ const Tickets = () => {
   } 
 
   const handleEditTicket = (editedTicket) => {
-    if (!currentMovie) return;
+    if (!currentMovie || !currentMovie.tickets) return;
 
     const updatedMovie = {
       ...currentMovie,
@@ -58,6 +72,7 @@ const Tickets = () => {
   }
 
   const renderTickets = () => { 
+    if (!currentMovie?.tickets) return null;
     const userMovieTickets = currentMovie.tickets.filter(t => t.user_id === user.id)
     return userMovieTickets.map(ticket => {
       const ticketWithMovie = {
@@ -83,7 +98,7 @@ const Tickets = () => {
   return (
     <div className="tickets-container">
       <h3>Your Tickets for {currentMovie.title}:</h3>
-      {currentMovie.tickets && currentMovie.tickets.length > 0 ? (
+      {currentMovie?.tickets && currentMovie.tickets.length > 0 ? (
         <ul className="tickets-list">
           {renderTickets()}
         </ul>

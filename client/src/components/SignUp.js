@@ -67,10 +67,10 @@ function SignUp() {
           onChange={formik.handleChange}
           autoComplete="current-password"
         />
-        <label htmlFor="password">Password Confirmation</label>
+        <label htmlFor="passwordConfirmation">Password Confirmation</label>
         <input
           type="password"
-          id="password_confirmation"
+          id="passwordConfirmation"
           value={formik.values.passwordConfirmation}
           onChange={formik.handleChange}
           autoComplete="current-password"

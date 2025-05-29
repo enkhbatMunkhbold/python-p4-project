@@ -95,6 +95,7 @@
 
 .edit-form {
   width: 100%;
+  padding: 10px;
 }
 
 .error-message {
@@ -168,4 +169,8 @@
 .cancel-button:hover,
 .edit-select:hover {
   background-color: #ffe4d1;
+}
+
+.form-group {
+  padding: 0 10px;
 }
